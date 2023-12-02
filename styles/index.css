@@ -24,12 +24,17 @@ body > footer {
     display: flex;
 }
 
-body > footer > .footer-text {
+body > footer > .footer-content {
     margin: 1 auto;
-    margin-left: 25%;
+    width: 60%;
+}
+
+body > footer > .footer-content > .footer-text {
+    display: inline;
 }
 
 body * .icon {
     width: 1.5em;
     height: auto;
+    display: inline;
 }

@@ -44,9 +44,6 @@ body > footer > .footer-content {
 
 body > content > .register {
     width: 70%;
+    height: fit-content;
     min-width: fit-content;   
-}
-
-body > content > .register > .btn-primary {
-    float: right;
 }

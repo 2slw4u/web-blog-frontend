@@ -24,11 +24,6 @@ body > footer {
     display: flex;
 }
 
-body > footer > .footer-content {
-    margin: 1 auto;
-    width: 60%;
-}
-
 body > footer > .footer-content > .footer-text {
     display: inline;
 }
@@ -41,10 +36,15 @@ body * .icon {
 
 /*----------------------------------------------------------------------------------*/
 
+
+body > footer > .footer-content {
+    margin: 1 auto;
+    width: 70%;
+}
+
 body > content > .register {
     width: 70%;
-    min-width: fit-content;
-    
+    min-width: fit-content;   
 }
 
 body > content > .register > .btn-primary {

@@ -12,7 +12,7 @@ body {
     list-style-type: none;
 }
 
-.navbar > .container-fluid * > .authorized-nav-item, .navbar > .container-fluid * > .profile-nav-item, .navbar > .container-fluid * > .main-nav-item {
+.authorized-nav-item, .profile-nav-item, .main-nav-item, .authorized {
     display: none;
 }
 

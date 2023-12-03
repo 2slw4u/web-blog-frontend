@@ -100,18 +100,8 @@
                     <div class="submit-button-column col-12 col-sm-6 col-lg-1 d-flex d-lg-block flex-column pt-0 pt-lg-4">
                         <button type="submit" class="btn btn-primary btn-sm float-end">Применить</button>
                     </div>  
-                    <!--
-                        <div class="submit-button-column col-12 col-sm-6 col-lg-1 d-flex d-lg-block justify-content-center align-content-center position-relative">
-                            <button type="submit" class="btn btn-primary btn-sm float-end position-absolute bottom-0">Применить</button>
-                        </div>    
-                        <div class="submit-button-column col-12 col-sm-6 col-lg-1 position-relative">
-                            <button type="submit" class="btn btn-primary btn-sm float-end ">Применить</button>
-                        </div>
-                    <-->
                 </div>
             </div>
-                <!--
-                <button type="submit" class="btn btn-primary col-12">Зарегистрироваться</button>-->
         </form>
         <div class="card post-template mt-2 border border-1 rounded p-0">
             <div class="post-header p-3 pb-0 border-end-0">
@@ -126,9 +116,13 @@
                 <hr class="bg-dark mb-0" style="height: 1.5px;">
             </div>
             <content class="post-content p-3 pb-0">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis quia, odio at perspiciatis aliquam aspernatur accusamus non ipsam accusantium praesentium ea voluptas, tempora autem officiis unde. Accusamus sunt vitae cumque.
+                <div class="post-image-wrapper d-flex justify-content-center">
+                    <img alt="Картинка поста не загрузилась" class="post-image pb-3" src="https://images.unsplash.com/photo-1526666923127-b2970f64b422?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dmVyeSUyMGxhcmdlfGVufDB8fDB8fHww">
+                </div>
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis quia, odio at perspiciatis aliquam aspernatur accusamus non ipsam accusantium praesentium ea voluptas, tempora autem officiis unde. Accusamus sunt vitae cumque.
                 </span>
-                <a href="#" class="link-to-post text-decoration-none d-block">Читать полностью</a>
+                <a href="#" class="link-to-post text-decoration-none d-none">Читать полностью</a>
             </content>
             <div class="post-end p-3">
                 <div class="tags-section text-muted">
@@ -144,9 +138,9 @@
                 <a class="mb-0 text-black-50 text-decoration-none" href="#">
                     X <img src="/source/images/comment-icon.svg" alt="comm" class="icon">
                 </a>
-                <span class="mb-0 text-black-50 text-decoration-none float-end">
-                    X <img src="/source/images/heart-icon.svg" alt="likes" class="icon">
-                </span>
+                <button class="mb-0 text-black-50 text-decoration-none float-end border-0 bg-light">
+                    X <img src="/source/images/hollow-heart-icon.svg" alt="likes" class="icon">
+                </button>
             </div>
         </div>
         <div class="post-pagination-template px-0 my-3 row align-items-center justify-content-between">

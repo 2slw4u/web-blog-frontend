@@ -5,11 +5,10 @@ export default Common;
 
 let _loader = new StartingPageLoader();
 
-document.addEventListener("DOMContentLoaded", () => {
-    localStorage.setItem("token", null);
+document.addEventListener("DOMContentLoaded", async () => {
     _loader.loadPage();
-    $("#nav-main-page").click(() => {
+    localStorage.setItem("token", null);
+    await $("#nav-main-page").click(() => {
         _loader.loadPage();
     });
-
 })

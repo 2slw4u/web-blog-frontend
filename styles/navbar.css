@@ -1,0 +1,7 @@
+.navbar > .container-fluid > .navbar-collapse > li.dropdown {
+    list-style-type: none;
+}
+
+.navbar > .container-fluid * > .authorized-nav-item, .profile-nav-item, .main-nav-item {
+    display: none;
+}

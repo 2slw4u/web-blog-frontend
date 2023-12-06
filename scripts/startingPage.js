@@ -1,14 +1,20 @@
 import * as Common from "./common.js";
 import { StartingPageLoader } from "./pageLoaders/StartingPageLoader.js";
+import { LoginPageLoader } from "./pageLoaders/LoginPageLoader.js";
+import { ApiController} from "./api/ApiController.js";
 
 export default Common;
 
-let _loader = new StartingPageLoader();
+let _startingPageLoader = new StartingPageLoader();
+let _loginPageLoader = new LoginPageLoader();
 
 document.addEventListener("DOMContentLoaded", async () => {
-    _loader.loadPage();
+    _startingPageLoader.loadPage();
     localStorage.setItem("token", null);
-    await $("#nav-main-page").click(() => {
-        _loader.loadPage();
+    await $("#nav-starting-page").click(() => {
+        _startingPageLoader.loadPage();
+    });
+    await $("#nav-login-page").click(() => {
+        _loginPageLoader.loadPage();
     });
 })

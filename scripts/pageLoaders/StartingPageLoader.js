@@ -1,13 +1,14 @@
 import {PageLoader} from "./PageLoader.js"
-import { changeAuthorizedDisplay } from "../common.js";
+import * as Common from "../common.js";
 
 export class StartingPageLoader  extends PageLoader {
     pathname = "../../index.html";
 
-    //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content>
-    loadPage() {
+    //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content> и не показывает никакие данные, 
+    loadPage(element = "body") {
         $("#pageContent").empty();
-        changeAuthorizedDisplay();
         super.displayCertainElements();
+        Common.changeAuthorizedDisplay();
+        $(element).scroll(0, 0, "smooth");
     }
 }

@@ -5,17 +5,15 @@ export class PageLoader {
 
     displayCertainElements() {
         for (let elementClass in Common.CommonElementClasses) {
-            Common.changeDisplayOfElements(elementClass.valueOf(), Common.Enabling.disable);
+            Common.changeDisplayOfElements(Common.CommonElementClasses[elementClass], Common.Enabling.disable);
         }
     }
     
     //Стандартное поведение - загрузка всего нужного в <content> страницы
-    loadPage() {
-        $("#pageContent").empty();
+    loadPage(element = "body") {
         $("#pageContent").load(this.pathname);
         this.displayCertainElements();
         Common.changeAuthorizedDisplay();
+        $(element).scroll(0, 0, "smooth");
     }
-
-
 }

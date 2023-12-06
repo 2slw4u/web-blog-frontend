@@ -7,7 +7,9 @@ let _loader = new StartingPageLoader();
 
 document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("token", null);
+    _loader.loadPage();
     $("#nav-main-page").click(() => {
         _loader.loadPage();
     });
+
 })

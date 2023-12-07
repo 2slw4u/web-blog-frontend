@@ -11,8 +11,7 @@ export class ApiController {
     }
 
     async executeMethod(method, url_specified, body = null) {
-        let responseData = {}
-        return await fetch(`${this.url_common}${url_specified}`, {
+        let response = await fetch(`${this.url_common}${url_specified}`, {
             method: method,
             headers: {
                 "Content-Type": "application/json",
@@ -20,7 +19,11 @@ export class ApiController {
                 "accept": "application/json"
             },
             body: body == null ? null : JSON.stringify(body)
-        });
+        })
+        if (!response.ok) {
+            throw new Error("Login failed");
+        }
+        return response;
         
     }
     

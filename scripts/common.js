@@ -15,14 +15,11 @@ export function changeValidation(selector, enable, text=null) {
     if (enable == 1) {
         $(`${selector}`).removeClass('is-invalid');
         $(`${selector}`).addClass('is-valid');
-        //$(`${selector}`).val(text);
         $(`${selector}`).offsetParent().find('div.valid-feedback').text(text);
     }
     else {
         $(`${selector}`).addClass('is-invalid');
         $(`${selector}`).removeClass('is-valid');
-        //$(`${selector}`).val(text);
-        //$(`${selector}`).siblings('.invalid-feedback').val(text)
         $(`${selector}`).offsetParent().find('div.invalid-feedback').text(text);
     }
 }
@@ -37,10 +34,10 @@ export function changeDisplayOfElements(selector, enable) {
 }
 
 function defineUsersAuthorization() {
-    if (true) {
-        return false;
+    if (localStorage.getItem("token") != "null") {
+        return true;
     }
-    return true;
+    return false;
 }
 
 export function changeAuthorizedDisplay() {
@@ -49,6 +46,7 @@ export function changeAuthorizedDisplay() {
         changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.disable);
     }
     else {
+        console.log(CommonElementClasses.unauthorizedElement);
         changeDisplayOfElements(CommonElementClasses.authorizedElement, Enabling.disable);
         changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.enable);
     }

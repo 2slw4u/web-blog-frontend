@@ -1,0 +1,63 @@
+<content class="main-page-content d-flex mt-3 align-content-start justify-content-evenly row" id="main-page-template">
+    <div class="make-post mb-2 p-0 authorized w-75">
+        <button class="btn btn-primary float-end">Написать пост</button>
+    </div>
+    <form class="posts-filters-form border border-1 rounded p-0 w-75">
+        <div class="header bg-light border-bottom p-2 ps-3">
+            <span class=" fw-light line">Фильтры</span>
+        </div>
+        <div class="filters py-3 px-3 px-lg-1 px-xl-3">
+            <div class="input-group m-0 mb-3 row gx-3 gx-lg-0 gx-xl-2 pe-1">
+                <div class="author-filter-column col-lg-6 mb-3 mb-lg-0">
+                    <label for="author-filter" class="form-label mb-0">Поиск по имени автора</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="author-filter">
+                    </div>
+                </div>
+                <div class="tag-filter-column col-lg-6">
+                    <label for="tag-filter" class="form-label mb-0">Поиск по тэгам</label>
+                    <select class="input-group form-select" id="tag-filter" multiple size="3">
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group m-0 row gx-3 gx-lg-0 gx-xl-2 pe-0">
+                <div class="sort-filter-column col-sm-12 col-lg-4 mb-3 mb-lg-0">
+                    <label for="sort-filter" class="form-label mb-0">Сортировать</label>
+                    <select id="sort-filter" class="form-select input-group">
+                        <option>По дате создания (сначала новые)</option>
+                        <option>По дате создания (сначала старые)</option>
+                        <option>По лайкам (сначала больше)</option>
+                        <option>По лайкам (сначала меньше)</option>
+                    </select>
+                </div>
+                <div class="reading-time-from-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label for="reading-time-from" class="form-label mb-0 text-break">Время чтения от</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="reading-time-from">
+                    </div>
+                </div>
+                <div class="reading-time-till-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label for="reading-time-till" class="form-label mb-0">Время чтения до</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="reading-time-till">
+                    </div>
+                </div>
+                <div class="include-users-groups-column col-12 col-sm-6 col-lg-3 mb-3 mb-sm-0 pt-0 pt-lg-4">
+                    <input type="checkbox" class="form-check-input" value="" id="include-users-groups-check">
+                    <label for="include-users-groups-check" class="form-check-label">Только мои группы</label>
+                </div>
+                <div class="submit-button-column col-12 col-sm-6 col-lg-1 d-flex d-lg-block flex-column pt-0 pt-lg-4">
+                    <button type="submit" class="btn btn-primary btn-sm float-end">Применить</button>
+                </div>  
+            </div>
+        </div>
+    </form>
+    <!--place for posts templates-->
+    <!--place for posts pagination template-->
+</content>

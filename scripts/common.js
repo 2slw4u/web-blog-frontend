@@ -44,9 +44,9 @@ export function changeAuthorizedDisplay() {
     if (defineUsersAuthorization()) {
         changeDisplayOfElements(CommonElementClasses.authorizedElement, Enabling.enable);
         changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.disable);
+        $("#nav-user-menu").text(localStorage.getItem("userEmail"));
     }
     else {
-        console.log(CommonElementClasses.unauthorizedElement);
         changeDisplayOfElements(CommonElementClasses.authorizedElement, Enabling.disable);
         changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.enable);
     }

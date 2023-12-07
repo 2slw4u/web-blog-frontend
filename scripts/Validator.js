@@ -6,6 +6,8 @@ class ValidationResult {
     }
 }
 
+const MILLISECONDS_IN_A_YEAR = 31556952000;
+
 export class Validator {
 
     static validateEmail(email, container) {
@@ -17,7 +19,6 @@ export class Validator {
 
     static validatePassword(password, container) {
         if (password.match(new RegExp("[0-9]")) == null) {
-            console.log(password, password.match(new RegExp(".*\d.*")));
             return new ValidationResult(false, container, "Password should contain a number"); 
         }
         if (password.match(new RegExp("[a-zA-Z]")) == null) {
@@ -31,6 +32,42 @@ export class Validator {
         }
         if (password.length <= 6) {
             return new ValidationResult(false, container, "Password should be longer than 6 symbols"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
+    static validateDOB(dob, container) {
+        let currDate = new Date();
+        let setDate = new Date(dob);
+        let yearDiff = (currDate - setDate) / MILLISECONDS_IN_A_YEAR;
+        if (isNaN(yearDiff)) {
+            return new ValidationResult(false, container, "DOB should be set"); 
+        }
+        if (yearDiff < 0) {
+            return new ValidationResult(false, container, "No timetravellers allowed"); 
+        }
+        if (yearDiff >= 100) {
+            return new ValidationResult(false, container, "No country for old men"); 
+        }
+        if (yearDiff < 18) {
+            return new ValidationResult(false, container, "Go ask your parents"); 
+        } 
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
+    static validatePhone(phone, container) {
+        if (phone.match(new RegExp("[+][7-8] \\([0-9]{3}\\) [0-9]{3}-[0-9]{2}-[0-9]{2}")) == null) {
+            return new ValidationResult(false, container, "Doesn't look like phone number"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
+    static validateNickname(nickname, container) {
+        if (nickname.length <= 3) {
+            return new ValidationResult(false, container, "Name should be longer than 6 symbols"); 
+        }
+        if (nickname.length >= 13) {
+            return new ValidationResult(false, container, "Name shouldn't be longer than 13 symbols"); 
         }
         return new ValidationResult(true, container, "Looks suitable!"); 
     }

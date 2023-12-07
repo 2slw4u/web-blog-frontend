@@ -8,6 +8,7 @@ import { CommunitiesPageLoader } from "./CommunitiesPageLoader.js";
 import { ProfilePageLoader } from "./ProfilePageLoader.js";
 
 export class StartingPageLoader extends PageLoader {
+    _pageLoader = new PageLoader();
     _mainPageLoader = new MainPageLoader();
     _makePostPageLoader = new MakePostPageLoader();
     _authorsPageLoader = new AuthorsPageLoader();
@@ -21,7 +22,7 @@ export class StartingPageLoader extends PageLoader {
 
     setUpNav() {
         $("#nav-starting-page").click(() => {
-            this.loadPage();
+            $("#pageContent").empty();
         });
         $("#nav-main-page").click(() => {
             this._mainPageLoader.loadPage();

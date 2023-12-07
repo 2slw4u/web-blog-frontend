@@ -13,39 +13,35 @@ export class LoginPageLoader extends PageLoader {
         super("../../source/templates/page-templates/login-page-template.html");
     }
 
-    logging(obj) {
-        console.log(obj);
-    }
-
     validate(body) {
         let errors = new Array();
         errors.push(Validator.validateEmail(body.email, "#email-input"));
         errors.push(Validator.validatePassword(body.password, "#password-input"));
-        let flag = true;
-        errors.forEach(element => {
-            let enabling = Common.Enabling.enable;
-            if (!element.success) {
-                enabling = Common.Enabling.disable;
-                flag = false;
-            }
-            Common.changeValidation(element.container, enabling, element.message);
-        });
-        return flag;
+        return super.validate(errors);
     }
 
     handleErros(err) {
-        console.log(err);
+        super.handleErrors(err);
         Common.changeValidation("#email-input", Common.Enabling.disable, "Not quite right email..");
         Common.changeValidation("#password-input", Common.Enabling.disable, "..or password");
     }
 
-    loadPage(element = "body") {
-        super.loadPage(element);
-        Common.waitForElm(".btn-primary").then((elm) => {
+    async loadElements() {
+        await Common.waitForElm("#login-button").then((elm) => {
             $(elm).click(() => {
                 this.login();
             });
         });
+        await Common.waitForElm("#register-button").then((elm) => {
+            $(elm).click(() => {
+                this._registerPageLoader.loadPage();
+            });
+        });
+    }
+
+    loadPage(element = "body") {
+        super.loadPage(element);
+        this.loadElements();
     } 
 
     login() {
@@ -57,8 +53,8 @@ export class LoginPageLoader extends PageLoader {
             var response = this.Controller.accountLogin(body).then((response) => {
                 return response.json();
             }).then((json) => {
-                console.log(json);
                 localStorage.setItem("token", json["token"]);
+                localStorage.setItem("userEmail", body.email);
                 this._profilePageLoader.loadPage();
             }).catch((error) => {
                 this.handleErros(error);

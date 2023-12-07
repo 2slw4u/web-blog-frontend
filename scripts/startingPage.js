@@ -9,5 +9,6 @@ let _startingPageLoader = new StartingPageLoader();
 
 document.addEventListener("DOMContentLoaded", async () => {
     localStorage.setItem("token", null);
+    localStorage.setItem("userEmail", null);
     _startingPageLoader.loadPage();
 })

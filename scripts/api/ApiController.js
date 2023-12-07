@@ -21,7 +21,8 @@ export class ApiController {
             body: body == null ? null : JSON.stringify(body)
         })
         if (!response.ok) {
-            throw new Error("Login failed");
+            console.log(response.json());
+            throw new Error("Something went wrong");
         }
         return response;
         

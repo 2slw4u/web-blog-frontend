@@ -20,13 +20,30 @@ export class PageLoader {
         }
     }
     
-    validate() {
-        
+    loadElements() {
+
+    }
+
+    handleErrors(err) {
+        console.error(err);
+    }
+
+    validate(errors) {
+        let flag = true;
+        errors.forEach(element => {
+            let enabling = Common.Enabling.enable;
+            if (!element.success) {
+                enabling = Common.Enabling.disable;
+                flag = false;
+            }
+            Common.changeValidation(element.container, enabling, element.message);
+        });
+        return flag;
     }
 
     //Стандартное поведение - загрузка всего нужного в <content> страницы
     async loadPage(element = "body") {
-        return new Promise(resolve => {
+        return new Promise(() => {
             $("#pageContent").empty();
             $.get(this.pathName, null, function(data){
                 var $template = $(data).clone();

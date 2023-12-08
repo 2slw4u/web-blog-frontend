@@ -14,13 +14,17 @@ export class PageLoader {
         }
     }
 
-    static displayElements(classes) {
-        for (let elementClass in classes) {
-            Common.changeDisplayOfElements(Common.CommonElementClasses[elementClass], Common.Enabling.enable);
-        }
+    static displayElements(selectors) {
+        selectors.forEach((selector) => {
+            Common.changeDisplayOfElements(selector, Common.Enabling.enable);
+        })
     }
     
     loadElements() {
+
+    }
+
+    loadNavElements() {
 
     }
 
@@ -48,14 +52,14 @@ export class PageLoader {
             $.get(this.pathName, null, function(data){
                 var $template = $(data).clone();
                 $template.attr("id", "pageContent");
-                $template.find(".button-primary").click(function(){
-                    PageLoader.hideAll();
-                });
                 $("#pageContent").replaceWith($template);
                 PageLoader.hideAll();
                 Common.changeAuthorizedDisplay();
                 $(element).scroll(0, 0, "smooth");
-            });
+            }).then(() => {
+                this.loadNavElements();
+                this.loadElements();
+            })
         });
     }
 }

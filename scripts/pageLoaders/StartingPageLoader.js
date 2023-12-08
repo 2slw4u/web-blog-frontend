@@ -20,6 +20,29 @@ export class StartingPageLoader extends PageLoader {
         super("../../index.html");
     }
 
+    handleErrors() {
+        super.handleErrors();
+    }
+
+    logout() {
+        var response = this.Controller.accountLogout().then((response) => {
+            return response.json();
+        }).then((json) => {
+            localStorage.setItem("token", null);
+            localStorage.setItem("userEmail", null);
+            $("#pageContent").empty();
+            this.loadNavElements();
+        }).catch((error) => {
+            this.handleErros(error);
+            return error;
+        });
+    }
+
+    loadNavElements() {
+        PageLoader.hideAll();
+        Common.changeAuthorizedDisplay();
+    }
+
     setUpNav() {
         $("#nav-starting-page").click(() => {
             $("#pageContent").empty();
@@ -42,14 +65,16 @@ export class StartingPageLoader extends PageLoader {
         $("#nav-profile-page").click(() => {
             this._profilePageLoader.loadPage();
         });
+        $("#nav-logout").click(() => {
+            this.logout();
+        });
     }
 
     //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content> и не показывает никакие данные, 
     loadPage(element = "body") {
         $("#pageContent").empty();
         this.setUpNav();
-        PageLoader.hideAll();
-        Common.changeAuthorizedDisplay();
+        this.loadNavElements();
         $(element).scroll(0, 0, "smooth");
     }
 }

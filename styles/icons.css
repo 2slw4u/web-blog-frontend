@@ -1,0 +1,13 @@
+body * .icon {
+    width: 1.5em;
+    height: auto;
+    display: inline;
+}
+
+body * .medium-icon {
+    width: 4em
+}
+
+body * .big-icon {
+    width: 7em;
+}

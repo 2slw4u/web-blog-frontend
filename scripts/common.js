@@ -71,3 +71,9 @@ export function waitForElm(selector) {
         });
     });
 }
+
+
+export function convertDateToDateInput(date) {
+    let unformattedDate = new Date(date);
+    return `${unformattedDate.getFullYear()}-${unformattedDate.getMonth() + 1}-${unformattedDate.getDate()}`
+}

@@ -29,7 +29,9 @@ export class LoginPageLoader extends PageLoader {
     async loadElements() {
         await Common.waitForElm("#login-button").then((elm) => {
             $(elm).click(() => {
-                this.login();
+                this.login().then(() => {
+                    this._profilePageLoader.loadPage();
+                });
             });
         });
         await Common.waitForElm("#register-button").then((elm) => {
@@ -41,7 +43,6 @@ export class LoginPageLoader extends PageLoader {
 
     loadPage(element = "body") {
         super.loadPage(element);
-        this.loadElements();
     } 
 
     login() {
@@ -50,12 +51,11 @@ export class LoginPageLoader extends PageLoader {
             password: $('#password-input').val()
         }
         if (this.validate(body)) {
-            var response = this.Controller.accountLogin(body).then((response) => {
+            return this.Controller.accountLogin(body).then((response) => {
                 return response.json();
             }).then((json) => {
                 localStorage.setItem("token", json["token"]);
                 localStorage.setItem("userEmail", body.email);
-                this._profilePageLoader.loadPage();
             }).catch((error) => {
                 this.handleErros(error);
                 return error;

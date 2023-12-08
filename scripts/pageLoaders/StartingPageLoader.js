@@ -46,6 +46,7 @@ export class StartingPageLoader extends PageLoader {
     setUpNav() {
         $("#nav-starting-page").click(() => {
             $("#pageContent").empty();
+            this.loadNavElements();
         });
         $("#nav-main-page").click(() => {
             this._mainPageLoader.loadPage();

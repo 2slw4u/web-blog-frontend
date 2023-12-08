@@ -21,7 +21,7 @@ export class PageLoader {
     }
     
     loadElements() {
-
+        
     }
 
     loadNavElements() {

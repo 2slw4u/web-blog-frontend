@@ -40,7 +40,6 @@ export class RegisterPageLoader extends PageLoader {
 
     loadPage(element = "body") {
         super.loadPage(element);
-        this.loadElements();
     } 
 
     register() {

@@ -1,0 +1,76 @@
+<content class="make-post-page-content d-flex mt-3 align-content-start justify-content-evenly row" id="make-post-page-template">
+    <form class="create-post-form border border-1 rounded p-3 w-75">
+        <h1>Написать новый пост</h1>
+        <div class="create-post-details mb-3">
+            <div class="input-group m-0 mb-3 row gx-0">
+                <div class="col-md-9 mb-3 mb-md-0 me-0 pe-md-3">
+                    <label for="new-post-name" class="form-label mb-0">Название</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="new-post-name">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="new-post-reading-time" class="form-label mb-0">Время чтения</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="new-post-reading-time">
+                    </div>
+                </div>
+            </div>
+            <div class="input-group m-0 mb-3 row gx-0">
+                <div class="col-md-6 mb-3 mb-md-0 me-0 pe-md-3">
+                    <label for="new-post-group" class="form-label mb-0">Поиск по тэгам</label>
+                    <select class="input-group form-select" id="new-post-group">
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="new-post-tags" class="form-label mb-0">Тэги</label>
+                    <select class="input-group form-select" id="new-post-tags" multiple size="3">
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group m-0 mb-3 row gx-0">
+                <div class="col-md-12">
+                    <label for="new-post-image-link" class="form-label mb-0">Ссылка на картинку</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="new-post-image-link">
+                    </div>
+                </div>
+            </div>
+            <div class="input-group m-0">
+                <label for="new-post-content" class="form-label mb-0">Текст</label>
+                <div class="input-group">
+                    <textarea name="new-post-content" id="new-post-content" rows="5" class="border rounded border-1" style="resize: both; width: 100%; max-width: 100%;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="address-template">
+            <h3>Адрес</h3>
+            <div class="input-group m-0 mb-3 row gx-0">
+                <div class="col">
+                    <label for="address-first-level" class="form-label mb-0">Поиск по тэгам</label>
+                    <select class="input-group form-select" id="address-first-level">
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                        <option>firstExample</option>
+                        <option>secondExample</option>
+                        <option>thirdExample</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary float-end" type="submit">Создать пост</button>
+    </form>
+</content>

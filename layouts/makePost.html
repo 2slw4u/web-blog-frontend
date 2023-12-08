@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/styles/common.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand ms-3" href="#">Блог №415</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav ms-3 ms-lg-0 me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Главная</a>
+              </li>
+              <li class="nav-item profile-nav-item">
+                <a class="nav-link" href="#">Написать пост</a>
+              </li>
+              <li class="nav-item main-nav-item">
+                <a class="nav-link" href="#">Авторы</a>
+              </li>
+              <li class="nav-item main-nav-item">
+                <a class="nav-link" href="#">Группы</a>
+              </li>
+            </ul>
+            <span class="nav-item mb-2 mb-lg-0">
+                <a class="nav-link" href="#">Вход</a>
+            </span>
+            <li class="nav-item dropdown authorized-nav-item">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  user@example.email
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Профиль</a></li>
+                  <li><a class="dropdown-item" href="#">Выйти</a></li>
+                </ul>
+              </li>
+          </div>
+        </div>
+    </nav>
+    <content>
+        <div class="make-post-page-content d-flex mt-3 align-content-start justify-content-evenly row">
+            <form class="create-post-form border border-1 rounded p-3 w-75">
+                <h1>Написать новый пост</h1>
+                <div class="create-post-details mb-3">
+                    <div class="input-group m-0 mb-3 row gx-0">
+                        <div class="col-md-9 mb-3 mb-md-0 me-0 pe-md-3">
+                            <label for="new-post-name" class="form-label mb-0">Название</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="new-post-name">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="new-post-reading-time" class="form-label mb-0">Время чтения</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="new-post-reading-time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group m-0 mb-3 row gx-0">
+                        <div class="col-md-6 mb-3 mb-md-0 me-0 pe-md-3">
+                            <label for="new-post-group" class="form-label mb-0">Поиск по тэгам</label>
+                            <select class="input-group form-select" id="new-post-group">
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new-post-tags" class="form-label mb-0">Тэги</label>
+                            <select class="input-group form-select" id="new-post-tags" multiple size="3">
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group m-0 mb-3 row gx-0">
+                        <div class="col-md-12">
+                            <label for="new-post-image-link" class="form-label mb-0">Ссылка на картинку</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="new-post-image-link">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group m-0">
+                        <label for="new-post-content" class="form-label mb-0">Текст</label>
+                        <div class="input-group">
+                            <textarea name="new-post-content" id="new-post-content" rows="5" class="border rounded border-1" style="resize: both; width: 100%; max-width: 100%;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="address-template">
+                    <h3>Адрес</h3>
+                    <div class="input-group m-0 mb-3 row gx-0">
+                        <div class="col">
+                            <label for="address-first-level" class="form-label mb-0">Поиск по тэгам</label>
+                            <select class="input-group form-select" id="address-first-level">
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                                <option>firstExample</option>
+                                <option>secondExample</option>
+                                <option>thirdExample</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary float-end" type="submit">Создать пост</button>
+            </form>
+        </div>
+    </content>
+    <footer class="d-flex flex-wrap py-3 bg-light">
+        <div class="footer-content w-75">
+            <p class="mb-0 me-2 text-muted footer-text">© 2023 Ushakov, Frontend</p>
+            <a class="mb-0" href="https://vk.com/2slw4u">
+                <img src="/source/images/vk_logo.svg" alt="VK" class="icon">
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</body>
+</html>

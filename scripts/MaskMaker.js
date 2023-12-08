@@ -1,9 +1,9 @@
 export class MaskMaker {
-    static applyMask(element, mask) {
-        $(elm).mask(`${mask}`);
+    static applyMask(selector, mask) {
+        $(selector).mask(`${mask}`);
     }
 
-    static applyPhoneMask(element) {
-        $(element).mask('+0 (000) 000-00-00');
+    static applyPhoneMask(selector) {
+        $(selector).mask('+0 (000) 000-00-00');
     }
 }

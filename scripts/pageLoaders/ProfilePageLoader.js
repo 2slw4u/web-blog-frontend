@@ -1,6 +1,7 @@
 import { PageLoader } from "./PageLoader.js";
 import * as Common from "../common.js";
 import { Validator } from "../Validator.js";
+import {MaskMaker} from "../MaskMaker.js"
 
 export class ProfilePageLoader extends PageLoader {
 
@@ -57,6 +58,7 @@ export class ProfilePageLoader extends PageLoader {
                 this.editProfile();
             });
             this.loadProfileData();
+            MaskMaker.applyPhoneMask("#tel-input");
         });
     }
 

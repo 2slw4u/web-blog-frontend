@@ -11,6 +11,13 @@ export const CommonElementClasses = {
     authorsNavElement: ".authors-nav-item"
 }
 
+export const CommunityRoles = {
+    nobody: "null",
+    subscriber: "Subscriber",
+    admin: "Administrator"
+}
+
+
 export function changeValidation(selector, enable, text=null) {
     if (enable == 1) {
         $(`${selector}`).removeClass('is-invalid');
@@ -72,8 +79,19 @@ export function waitForElm(selector) {
     });
 }
 
+function formatDateComponent(component, goal) {
+    if (component < goal) {
+        let result = component.toString();
+        while (component < goal) {
+            result = "0" + result;
+            component*=10;
+        }
+        return result;
+    }
+    return component.toString();
+}
 
 export function convertDateToDateInput(date) {
     let unformattedDate = new Date(date);
-    return `${unformattedDate.getFullYear()}-${unformattedDate.getMonth() + 1}-${unformattedDate.getDate()}`
+    return `${formatDateComponent(unformattedDate.getFullYear(), 1000)}-${formatDateComponent(unformattedDate.getMonth() + 1, 10)}-${formatDateComponent(unformattedDate.getDate(), 10)}`
 }

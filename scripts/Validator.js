@@ -71,4 +71,39 @@ export class Validator {
         }
         return new ValidationResult(true, container, "Looks suitable!"); 
     }
+
+    static validatePostTitle(title, container) {
+        if (title.length < 5) {
+            return new ValidationResult(false, container, "Title shouldn't be shorter than 5 symbols"); 
+        }
+        if (title.length > 30) {
+            return new ValidationResult(false, container, "Title shouldn't be longer than 30 symbols"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
+    static validateReadingTime(readingTime, container) {
+        if (readingTime <= 0 || readingTime.length == 0) {
+            return new ValidationResult(false, container, "Reading time must be positive"); 
+        }
+        if (readingTime > 500) {
+            return new ValidationResult(false, container, "I ain't reading all dat"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+
+    }
+
+    static validateImageURL(imageURL, container) {
+        if (imageURL.match(new RegExp("https?:\/\/.*\.(?:png|jpg|jpeg|gif)$")) == null) {
+            return new ValidationResult(false, container, "Doesn't look like image url"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
+    static validateTags(tags, container) {
+        if (tags.length <= 0) {
+            return new ValidationResult(false, container, "Choose at least one"); 
+        } 
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
 }

@@ -10,6 +10,15 @@ export class ApiController {
         this.url_common = "https://blog.kreosoft.space/api/";
     }
 
+    async formFetchAdditive(array) {
+        let result = array.length < 1 ? "" : `?${array[0].name}=${array[0].value}`;
+        for (let i = 1; i < array.length; i++) {
+            const element = array[i];
+            result += `&${element.name}=${element.value}`;
+        }
+        return result;
+    }
+
     async executeMethod(method, url_specified, body = null) {
         let response = await fetch(`${this.url_common}${url_specified}`, {
             method: method,
@@ -28,8 +37,39 @@ export class ApiController {
         
     }
     
-    async searchAddress(body) {
-        return this.executeMethod(Methods.get, "address/search", body)
+    async searchAddress(parentObjectId, query) {
+        let array = [];
+        if (parentObjectId != null) {
+            array.push({
+                name: "parentObjectId",
+                value: parentObjectId 
+            })
+        }
+        if (query != null) {
+            array.push({
+                name: "query",
+                value: query 
+            })
+        }
+        let fetchAdditive = "";
+        if (array.length != 0) {
+            fetchAdditive = await this.formFetchAdditive(array);
+        } 
+        //console.log(fetchAdditive);
+        /* let append = "";
+        if (parentObjectId != null) {
+            append += `?parentObjectId=${parentObjectId}`;
+        }
+        if (query != null) {
+            if (parentObjectId != null) {
+                append += `&query=${(query)}`;
+            }
+            else {
+                append += `?query=${(query)}`;
+            }
+        }
+        console.log(`address/search${append}`); */
+        return this.executeMethod(Methods.get, `address/search${fetchAdditive}`)
     }
 
     async chainAddress(body) {

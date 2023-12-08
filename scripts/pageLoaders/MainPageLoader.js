@@ -6,6 +6,10 @@ export class MainPageLoader extends PageLoader {
         super("../../source/templates/page-templates/main-page-template.html");
     }
 
+    loadNavElements() {
+        PageLoader.displayElements([".main-nav-item"]);
+    }
+
     loadPage(element = "body") {
         super.loadPage(element);
     } 

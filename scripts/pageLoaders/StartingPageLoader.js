@@ -23,6 +23,7 @@ export class StartingPageLoader extends PageLoader {
     setUpNav() {
         $("#nav-starting-page").click(() => {
             $("#pageContent").empty();
+            this.loadNavElements();
         });
         $("#nav-main-page").click(() => {
             this._mainPageLoader.loadPage();
@@ -42,6 +43,11 @@ export class StartingPageLoader extends PageLoader {
         $("#nav-profile-page").click(() => {
             this._profilePageLoader.loadPage();
         });
+    }
+
+    loadNavElements() {
+        PageLoader.hideAll();
+        Common.changeAuthorizedDisplay();
     }
 
     //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content> и не показывает никакие данные, 

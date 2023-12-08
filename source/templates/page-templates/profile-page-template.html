@@ -1,0 +1,36 @@
+<content class="profile-page-content d-flex mt-3 justify-content-center align-items-baseline" id="profile-page-template">
+    <form class="profile border border-1 rounded shadow p-3 w-75">
+      <div class="input-group mb-3">
+          <label for="email-input" class="form-label col-12 col-sm-4">Email</label>
+          <input type="text" class="form-control col-8" id="email-input" placeholder="name@example.com">
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+      </div>
+      <div class="input-group mb-3">
+          <label for="full-name-input" class="form-label col-12 col-sm-4">ФИО</label>
+          <input type="text" class="form-control col-8" id="full-name-input" placeholder="Иванов Иван Иванович">
+          <div class="valid-feedback form-control-feedback"></div>
+          <div class="invalid-feedback form-control-feedback"></div>
+      </div>
+      <div class="input-group mb-3">
+          <label for="sex-input" class="form-label col-12 col-sm-4">Пол</label>
+          <select id="sex-input" class="form-select col-8 text-muted">
+              <option class="selected" value="Male">Мужчина</option>
+              <option value="Female">Женщина</option>
+          </select>
+      </div>
+      <div class="input-group mb-3">
+          <label for="dob-input" class="form-label col-12 col-sm-4">Дата рождения</label>
+          <input type="date" class="form-control col-8 text-muted" id="dob-input">
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+      </div>
+      <div class="input-group mb-3">
+          <label for="tel-input" class="form-label col-12 col-sm-4">Телефон</label>
+          <input type="text" class="form-control col-8" id="tel-input" placeholder="+7 (923) 407-20-30">
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+      </div>
+      <button type="submit" class="btn btn-primary float-end" id="edit-profile-button">Сохранить</button>
+  </form>
+</content>

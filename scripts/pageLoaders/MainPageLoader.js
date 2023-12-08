@@ -8,7 +8,7 @@ export class MainPageLoader extends PageLoader {
     }
 
     loadNavElements() {
-        PageLoader.displayElements([".authors-nav-item"]);
+        PageLoader.displayElements([".main-nav-item"]);
     }
 
     async loadPage(element = "body") {

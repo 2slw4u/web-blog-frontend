@@ -11,6 +11,12 @@ export const CommonElementClasses = {
     authorsNavElement: ".authors-nav-item"
 }
 
+export const CommunityRoles = {
+    nobody: "null",
+    subscriber: "Subscriber",
+    admin: "Administrator"
+}
+
 export function changeValidation(selector, enable, text=null) {
     if (enable == 1) {
         $(`${selector}`).removeClass('is-invalid');

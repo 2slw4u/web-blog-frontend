@@ -47,7 +47,7 @@ export class PageLoader {
 
     //Стандартное поведение - загрузка всего нужного в <content> страницы
     async loadPage(element = "body") {
-        return new Promise(() => {
+        return new Promise(async() => {
             $("#pageContent").empty();
             $.get(this.pathName, null, function(data){
                 var $template = $(data).clone();
@@ -55,11 +55,15 @@ export class PageLoader {
                 $("#pageContent").replaceWith($template);
                 PageLoader.hideAll();
                 Common.changeAuthorizedDisplay();
-                $(element).scroll(0, 0, "smooth");
             }).then(() => {
                 this.loadNavElements();
                 this.loadElements();
             })
+            await Common.waitForElm(element).then((elm) => {
+                $('html, body').animate({
+                    scrollTop: $(element).offset().top
+                }, 1000);
+            });
         });
     }
 }

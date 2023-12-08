@@ -30,8 +30,6 @@ export class AuthorsPageLoader extends PageLoader {
                 }
                 return 0;
             });
-            console.log(json);
-            console.log(temp);
             temp.forEach((element) => {
                 $.get("../../source/templates/element-templates/author-template.html", null, function(data){
                     let $template = $(data).clone();

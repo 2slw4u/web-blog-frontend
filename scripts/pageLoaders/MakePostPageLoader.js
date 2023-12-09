@@ -22,26 +22,31 @@ export class MakePostPageLoader extends PageLoader {
         super.handleErrors(err);
     }
 
-    getAddressSearches() {
-        return null;
-    }
-
     getAddressId() {
-        return null;
+        let $lastInput = $(".address-template:last").find(".address-input");
+        if ($lastInput.val() == "none") {
+            let $secondToLastInput = $(".address-template:last").prev().find(".address-input");
+            if ($secondToLastInput === null || $secondToLastInput.val() === undefined) {
+                return null;
+            }
+            return $secondToLastInput.val();
+        }
+        return $lastInput.val();
     }
 
-    uploadAddresses(id, parentObjectId, query) {
+    uploadAddresses(id, level, parentObjectId, query = null) {
         let $selectInput = $(`#${id}`);
         this.Controller.searchAddress(parentObjectId, query).then((response) => {
             return response.json();
         }).then((json) => {
             if (json.length > 0) {
-                let $template = $("#Address-none").clone();
+                let $template = $('.basic-address-option').first().clone();
+                $template.attr("id", `address-${level}-none`);
                 $selectInput.empty();
                 $selectInput.append($template);
                 json.forEach(element => {
-                    $template = $("#Address-none").clone();
-                    $template.attr("id", `Address-${element.objectId}`);
+                    $template = $('.basic-address-option').first().clone();
+                    $template.attr("id", `address-${level}-${element.objectId}`);
                     $template.attr("value", `${element.objectId}`);
                     $template.text(element.text);
                     $template.removeAttr("selected");
@@ -54,8 +59,8 @@ export class MakePostPageLoader extends PageLoader {
         });
     }
 
-    updateOpitons(selectId) {
-        let $parent = $(".select2-results__options");
+    updateOptons(selectId) {
+        let $parent = $(".select2-results__options:last");
         let $child = $(".results-option:first").clone();
         $parent.unbind();
         $child.unbind();
@@ -68,75 +73,70 @@ export class MakePostPageLoader extends PageLoader {
             $child.addClass("results-option");
             $child.css("padding", "6px");
             $child.click((event) => {
-                //$(`#${selectId}`).val(`${$(event.target).attr("id")}`);
-                //console.log($(`#${selectId}`).find(":selected"))
-                //$(`#${selectId}`).find(":selected").removeAttr("selected");
-                //console.log($(`#${selectId} option`));
-                //$(`#${selectId} option`).attr('selected', false);
-                //console.log($(`#${selectId} option[value=${$(event.target).attr("id")}]`));
-                //$(`#${selectId} option[value=${$(event.target).attr("id")}]`).attr('selected', true);
-                //console.log($(`#${selectId}`).find(`#Address-${$(event.target).attr("id")}`));
-                //$(`#${selectId}`).find(`#Address-${$(event.target).attr("id")}`).attr("selected", "true");
-                //document.getElementById(selectId).value = $(event.target).attr("id");
                 $(`#${selectId}`).val($(event.target).attr("id"));
                 $(`#select2-${selectId}-container`).attr("title", $(event.target).attr("id"));
                 $(`#select2-${selectId}-container`).text($(`#${selectId} option[value=${$(event.target).attr("id")}]`).text());
                 $(`#${selectId}`).trigger('selected-option-changed')
-                //console.log($(`#${selectId}`).text($(event.target).attr("id")));
-                //$("div > span.select2-container").removeClass("select2-container--open");
-                //$("body > span.select2-container").remove();
             });
             $parent.append($child);
             $child = $child.clone();
         });
     }
 
-    addAddressField() {
-        
-    }
-
-    async loadAddress(id, parentObjectId = null) {
-        let $selectInput = $(`#${id}`);
-        $selectInput.select2();
-        let $labelForSelectInput = $(`#label-${id}`);
-        this.Controller.searchAddress(parentObjectId, null).then((response) => {
+    addAddressField(previousId = null) {
+        this.Controller.searchAddress(previousId, null).then((response) => {
             return response.json();
         }).then((json) => {
             if (json.length > 0) {
-                $labelForSelectInput.text(json[0].objectLevelText);
+                let levelRussian = json[0].objectLevelText;
+                let level = json[0].objectLevel;
+                $.get("../../source/templates/element-templates/address-template.html", null, function (data) {
+                    let $template = $(data).clone();
+                    let $label = $template.find("label");
+                    let $select = $template.find("select");
+                    $template.attr("id", `address-${level}-template`);
+                    $select.attr("id", `address-${level}-level`);
+                    $select.select2();
+                    $label.attr("for", `address-${level}-level`)
+                    $label.attr("id", `label-address-${level}-level`);
+                    $label.text(levelRussian);
+                    $("#create-post-button").before($template);
+                }).done(() => {
+                    this.loadAddress(`address-${level}-level`, level, previousId);
+                })
             }
         }).catch((error) => {
             this.handleErros(error);
             return error;
         });
+    }
 
-        $selectInput.on('selected-option-changed', () => {
-            if ($selectInput.val() == "none") {
-                console.log("chillin")
-                //remove all elements after this one
-            }
-            else {
-                console.log("workin")
-                //add another element, unless we're on the building already
-            }
-        })
-
-        await Common.waitForElm(`#select2-${id}-container`).then((element) => {
-            $(".select2-container").click(async () => {
-                $(".select2-results__option:first").addClass("results-option");
-                await this.updateOpitons(id);
-                await Common.waitForElm('.select2-search__field').then((element) => {
-                    $('.select2-search__field').unbind();
-                    $('.select2-dropdown').unbind();
-                    $('.select2-dropdown').on('input', async() => {
-                        let query = $('.select2-search__field').val() === ""? " " : $('.select2-search__field').val(); 
-                        await this.uploadAddresses(id, 1281271, query);
-                        await this.updateOpitons(id);
-                    });
+    loadAddress(id, level, parentObjectId = null) {
+        Common.waitForElm(`#${id}`).then(async (element) => {
+            let $selectInput = $(element);
+            $selectInput.on('selected-option-changed', async() => {
+                await $(`#address-${level}-template`).nextAll('.address-template').remove();
+                if ($selectInput.val() != "none") {
+                    this.addAddressField($selectInput.val());
+                }
+            })
+            await this.uploadAddresses(id, level, parentObjectId);
+            await Common.waitForElm(`#select2-${id}-container`).then(() => {
+                $(`#address-${level}-template > .input-group > .select2-container`).click(async() => {
+                    $(".select2-results__option:first").addClass("results-option");
+                    await this.updateOptons(id);
+                    Common.waitForElm('.select2-search__field').then(async() => {
+                        $('.select2-search__field').unbind();
+                        $('.select2-dropdown').unbind();
+                        $('.select2-dropdown').on('input', async() => {
+                            let query = await $('.select2-search__field').val() === "" ? " " : $('.select2-search__field').val();
+                            await this.uploadAddresses(id, level, parentObjectId, query);
+                            this.updateOptons(id);
+                        });
+                    })
                 })
             })
         })
-        await this.uploadAddresses(id, 1281271);
     }
 
     loadGroups() {
@@ -154,6 +154,7 @@ export class MakePostPageLoader extends PageLoader {
                             $template.attr("id", `Group-${json.name}`);
                             $template.attr("value", `${json.name}`);
                             $template.text(json.name);
+                            $template.val(json.id);
                             $("#new-post-group-input").append($template);
                             return json;
                         }).catch((error) => {
@@ -173,11 +174,12 @@ export class MakePostPageLoader extends PageLoader {
             return response.json();
         }).then((json) => {
             json.forEach(element => {
-                let $template = $("#groups-basic-option").clone();
+                let $template = $("#groups-basic-option:first").clone();
                 $template.removeAttr("selected");
                 $template.attr("id", `tag-${element.name}`);
                 $template.attr("value", `${element.name}`);
                 $template.text(element.name);
+                $template.val(element.id);
                 $("#new-post-tags-input").append($template);
             });
         }).catch((error) => {
@@ -191,17 +193,22 @@ export class MakePostPageLoader extends PageLoader {
             title: $('#new-post-name-input').val(),
             description: $('#new-post-content').val(),
             readingTime: $('#new-post-reading-time-input').val(),
-            image: $('#new-post-image-link-input').val(),
+            image: $('#new-post-image-link-input').val() == "" ? null : $('#new-post-image-link-input').val(),
             addressId: this.getAddressId(),
             tags: $('#new-post-tags-input').val()
         }
-        console.log(body);
         if (this.validate(body)) {
-            /* create post 
-            await this.Controller.createPost(body).catch((error) => {
-                this.handleErros(error);
-                return error;
-            }); */
+            if ($("#new-post-group-input").val() === "none") {
+                await this.Controller.postCreate(body).catch((error) => {
+                    this.handleErros(error);
+                    return error;
+                })
+            } else {
+                await this.Controller.postCreate(body).catch((error) => {
+                    this.handleErros(error);
+                    return error;
+                });
+            }
             return true;
         }
         return false;
@@ -223,9 +230,7 @@ export class MakePostPageLoader extends PageLoader {
                 });
             });
         }).then(() => {
-            Common.waitForElm("#address-Region-level").then(() => {
-                this.loadAddress("address-Region-level");
-            });
+            this.addAddressField();
         })
     }
 

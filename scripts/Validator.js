@@ -94,7 +94,7 @@ export class Validator {
     }
 
     static validateImageURL(imageURL, container) {
-        if (imageURL.match(new RegExp("https?:\/\/.*\.(?:png|jpg|jpeg|gif)$")) == null) {
+        if (imageURL !== null && imageURL.match(new RegExp("https?:\/\/.*\.(?:png|jpg|jpeg|gif)$")) == null) {
             return new ValidationResult(false, container, "Doesn't look like image url"); 
         }
         return new ValidationResult(true, container, "Looks suitable!"); 

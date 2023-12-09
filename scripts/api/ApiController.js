@@ -30,7 +30,7 @@ export class ApiController {
             body: body == null ? null : JSON.stringify(body)
         })
         if (!response.ok) {
-            console.log(response.json());
+            console.log(response);
             throw new Error("Something went wrong");
         }
         return response;
@@ -55,20 +55,6 @@ export class ApiController {
         if (array.length != 0) {
             fetchAdditive = await this.formFetchAdditive(array);
         } 
-        //console.log(fetchAdditive);
-        /* let append = "";
-        if (parentObjectId != null) {
-            append += `?parentObjectId=${parentObjectId}`;
-        }
-        if (query != null) {
-            if (parentObjectId != null) {
-                append += `&query=${(query)}`;
-            }
-            else {
-                append += `?query=${(query)}`;
-            }
-        }
-        console.log(`address/search${append}`); */
         return this.executeMethod(Methods.get, `address/search${fetchAdditive}`)
     }
 

@@ -30,16 +30,17 @@ export class MakePostPageLoader extends PageLoader {
         return null;
     }
 
-    async uploadAddresses(id, parentObjectId, query) {
+    uploadAddresses(id, parentObjectId, query) {
         let $selectInput = $(`#${id}`);
         this.Controller.searchAddress(parentObjectId, query).then((response) => {
             return response.json();
         }).then((json) => {
-            //console.log(json);
             if (json.length > 0) {
+                let $template = $("#Address-none").clone();
                 $selectInput.empty();
+                $selectInput.append($template);
                 json.forEach(element => {
-                    let $template = $("#option-basic").clone();
+                    $template = $("#Address-none").clone();
                     $template.attr("id", `Address-${element.objectId}`);
                     $template.attr("value", `${element.objectId}`);
                     $template.text(element.text);
@@ -53,15 +54,54 @@ export class MakePostPageLoader extends PageLoader {
         });
     }
 
+    updateOpitons(selectId) {
+        let $parent = $(".select2-results__options");
+        let $child = $(".results-option:first").clone();
+        $parent.unbind();
+        $child.unbind();
+        $parent.empty();
+        $(`#${selectId} > option`).each((i, obj) => {
+            $child.attr("id", `${obj.value}`);
+            $child.attr("aria-selected", "false");
+            $child.text(obj.text);
+            $child.removeClass("select2-results__option");
+            $child.addClass("results-option");
+            $child.css("padding", "6px");
+            $child.click((event) => {
+                //$(`#${selectId}`).val(`${$(event.target).attr("id")}`);
+                //console.log($(`#${selectId}`).find(":selected"))
+                //$(`#${selectId}`).find(":selected").removeAttr("selected");
+                //console.log($(`#${selectId} option`));
+                //$(`#${selectId} option`).attr('selected', false);
+                //console.log($(`#${selectId} option[value=${$(event.target).attr("id")}]`));
+                //$(`#${selectId} option[value=${$(event.target).attr("id")}]`).attr('selected', true);
+                //console.log($(`#${selectId}`).find(`#Address-${$(event.target).attr("id")}`));
+                //$(`#${selectId}`).find(`#Address-${$(event.target).attr("id")}`).attr("selected", "true");
+                //document.getElementById(selectId).value = $(event.target).attr("id");
+                $(`#${selectId}`).val($(event.target).attr("id"));
+                $(`#select2-${selectId}-container`).attr("title", $(event.target).attr("id"));
+                $(`#select2-${selectId}-container`).text($(`#${selectId} option[value=${$(event.target).attr("id")}]`).text());
+                $(`#${selectId}`).trigger('selected-option-changed')
+                //console.log($(`#${selectId}`).text($(event.target).attr("id")));
+                //$("div > span.select2-container").removeClass("select2-container--open");
+                //$("body > span.select2-container").remove();
+            });
+            $parent.append($child);
+            $child = $child.clone();
+        });
+    }
+
+    addAddressField() {
+        
+    }
+
     async loadAddress(id, parentObjectId = null) {
         let $selectInput = $(`#${id}`);
         $selectInput.select2();
         let $labelForSelectInput = $(`#label-${id}`);
-
         this.Controller.searchAddress(parentObjectId, null).then((response) => {
             return response.json();
         }).then((json) => {
-            //console.log(json);
             if (json.length > 0) {
                 $labelForSelectInput.text(json[0].objectLevelText);
             }
@@ -70,37 +110,46 @@ export class MakePostPageLoader extends PageLoader {
             return error;
         });
 
+        $selectInput.on('selected-option-changed', () => {
+            if ($selectInput.val() == "none") {
+                console.log("chillin")
+                //remove all elements after this one
+            }
+            else {
+                console.log("workin")
+                //add another element, unless we're on the building already
+            }
+        })
+
         await Common.waitForElm(`#select2-${id}-container`).then((element) => {
             $(".select2-container").click(async () => {
+                $(".select2-results__option:first").addClass("results-option");
+                await this.updateOpitons(id);
                 await Common.waitForElm('.select2-search__field').then((element) => {
-                    $('.select2-search__field').on('input', (event) => {
+                    $('.select2-search__field').unbind();
+                    $('.select2-dropdown').unbind();
+                    $('.select2-dropdown').on('input', async() => {
                         let query = $('.select2-search__field').val() === ""? " " : $('.select2-search__field').val(); 
-                        this.uploadAddresses(id, 1281271, query);
-                        console.log($('.select2-search__field').val());
+                        await this.uploadAddresses(id, 1281271, query);
+                        await this.updateOpitons(id);
                     });
                 })
             })
         })
-        $selectInput.change(() => {
-            //console.log($selectInput.val());
-        })
-        this.uploadAddresses(id, 1281271);
+        await this.uploadAddresses(id, 1281271);
     }
 
     loadGroups() {
         this.Controller.communityUsers().then((response) => {
             return response.json();
         }).then((json) => {
-            //console.log(json);
             json.forEach(element => {
-                //console.log(element);
                 if (element.role == Common.CommunityRoles.admin) {
-                    //console.log(element.communityId);
                     this.Controller.communityInfo(element.communityId)
                         .then((response) => {
                             return response.json();
                         }).then((json) => {
-                            let $template = $("#option-basic").clone();
+                            let $template = $("#groups-basic-option").clone();
                             $template.removeAttr("selected");
                             $template.attr("id", `Group-${json.name}`);
                             $template.attr("value", `${json.name}`);
@@ -124,7 +173,7 @@ export class MakePostPageLoader extends PageLoader {
             return response.json();
         }).then((json) => {
             json.forEach(element => {
-                let $template = $("#option-basic").clone();
+                let $template = $("#groups-basic-option").clone();
                 $template.removeAttr("selected");
                 $template.attr("id", `tag-${element.name}`);
                 $template.attr("value", `${element.name}`);
@@ -148,7 +197,8 @@ export class MakePostPageLoader extends PageLoader {
         }
         console.log(body);
         if (this.validate(body)) {
-            /* await this.Controller.accountEditInfo(body).catch((error) => {
+            /* create post 
+            await this.Controller.createPost(body).catch((error) => {
                 this.handleErros(error);
                 return error;
             }); */

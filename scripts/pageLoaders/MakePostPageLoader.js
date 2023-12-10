@@ -5,8 +5,11 @@ import { Validator } from "../Validator.js";
 
 export class MakePostPageLoader extends PageLoader {
 
-    constructor() {
+    groupId = null;
+
+    constructor(groupId = null) {
         super("../../source/templates/page-templates/make-post-page-template.html");
+        this.groupId = groupId;
     }
 
     validate(body) {
@@ -161,6 +164,10 @@ export class MakePostPageLoader extends PageLoader {
                             $template.val(json.id);
                             $("#new-post-group-input").append($template);
                             return json;
+                        }).then(() => {
+                            if (this.groupId != null) {
+                                $("#new-post-group-input").val(this.groupId);
+                            }
                         }).catch((error) => {
                             this.handleErros(error);
                             return error;

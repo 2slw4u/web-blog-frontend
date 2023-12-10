@@ -85,8 +85,8 @@ export class CommunityPageLoader extends PageLoader {
                         case Common.default.CommunityRoles.admin:
                             $("#action-create-post").removeClass("d-none");
                             $("#action-create-post").click(() => {
-                                /* let _makePostPageLoader = new MakePostPageLoader(this.thisGroupId);
-                                _makePostPageLoader.loadPage(); */
+                                let _makePostPageLoader = new MakePostPageLoader(this.thisGroupId);
+                                _makePostPageLoader.loadPage(); 
                             });
                             break;
                         case Common.default.CommunityRoles.subscriber:

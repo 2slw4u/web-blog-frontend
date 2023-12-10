@@ -1,4 +1,4 @@
-<div class="main-page-content d-flex mt-3 align-content-start justify-content-evenly row" id="main-page-template">
+<content class="main-page-content d-flex mt-3 align-content-start justify-content-evenly row" id="main-page-template">
     <div class="make-post mb-2 p-0 authorized w-75">
         <button class="btn btn-primary float-end">Написать пост</button>
     </div>
@@ -11,7 +11,7 @@
                 <div class="author-filter-column col-lg-6 mb-3 mb-lg-0">
                     <label for="author-filter" class="form-label mb-0">Поиск по имени автора</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="author-filter">
+                        <input type="text" class="form-control" id="author-filter" autocomplete="off">
                     </div>
                 </div>
                 <div class="tag-filter-column col-lg-6">
@@ -39,25 +39,25 @@
                 <div class="reading-time-from-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
                     <label for="reading-time-from" class="form-label mb-0 text-break">Время чтения от</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="reading-time-from">
+                        <input type="text" class="form-control" id="reading-time-from" autocomplete="off">
                     </div>
                 </div>
                 <div class="reading-time-till-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
                     <label for="reading-time-till" class="form-label mb-0">Время чтения до</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="reading-time-till">
+                        <input type="text" class="form-control" id="reading-time-till" autocomplete="off">
                     </div>
                 </div>
                 <div class="include-users-groups-column col-12 col-sm-6 col-lg-3 mb-3 mb-sm-0 pt-0 pt-lg-4">
-                    <input type="checkbox" class="form-check-input" value="" id="include-users-groups-check">
+                    <input type="checkbox" class="form-check-input" value="" id="include-only-users-groups-check">
                     <label for="include-users-groups-check" class="form-check-label">Только мои группы</label>
                 </div>
                 <div class="submit-button-column col-12 col-sm-6 col-lg-1 d-flex d-lg-block flex-column pt-0 pt-lg-4">
-                    <button type="submit" class="btn btn-primary btn-sm float-end">Применить</button>
+                    <button type="button" class="btn btn-primary btn-sm float-end">Применить</button>
                 </div>  
             </div>
         </div>
     </form>
     <!--place for posts templates-->
     <!--place for posts pagination template-->
-</div>
+</content>

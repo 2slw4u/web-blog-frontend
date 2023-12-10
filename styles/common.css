@@ -1,0 +1,19 @@
+@import 'navbar.css';
+@import 'content.css';
+@import 'footer.css';
+@import 'posts.css';
+@import 'login.css';
+@import 'register.css';
+@import 'icons.css';
+@import 'textarea.css';
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}

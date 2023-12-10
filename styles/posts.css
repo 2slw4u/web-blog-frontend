@@ -1,0 +1,4 @@
+.post-template > .post-content-section > .post-image-wrapper > #post-image {
+    max-width: 50%;
+    max-height: auto;
+}  

@@ -215,7 +215,7 @@ export class MakePostPageLoader extends PageLoader {
                     return error;
                 })
             } else {
-                await this.Controller.postCreate(body).catch((error) => {
+                await this.Controller.communityPostCreate($("#new-post-group-input").val(), body).catch((error) => {
                     this.handleErros(error);
                     return error;
                 });
@@ -235,7 +235,7 @@ export class MakePostPageLoader extends PageLoader {
         }).then(() => {
             Common.waitForElm("#create-post-button").then((elm) => {
                 $(elm).click(() => {
-                    if (this.createPost()) {
+                    if (!this.createPost()) {
                         $("#nav-main-page").trigger("click");
                     }
                 });

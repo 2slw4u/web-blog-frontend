@@ -22,16 +22,16 @@ export class MakePostPageLoader extends PageLoader {
         super.handleErrors(err);
     }
 
-    getAddressId() {
+    getAddressGuid() {
         let $lastInput = $(".address-template:last").find(".address-input");
         if ($lastInput.val() == "none") {
             let $secondToLastInput = $(".address-template:last").prev().find(".address-input");
             if ($secondToLastInput === null || $secondToLastInput.val() === undefined) {
                 return null;
             }
-            return $secondToLastInput.val();
+            return $secondToLastInput.data("parent");
         }
-        return $lastInput.val();
+        return $lastInput.data("parent");
     }
 
     uploadAddresses(id, level, parentObjectId, query = null) {
@@ -48,6 +48,7 @@ export class MakePostPageLoader extends PageLoader {
                     $template = $('.basic-address-option').first().clone();
                     $template.attr("id", `address-${level}-${element.objectId}`);
                     $template.attr("value", `${element.objectId}`);
+                    $template.attr("data-parent", element.objectGuid);
                     $template.text(element.text);
                     $template.removeAttr("selected");
                     $selectInput.append($template);
@@ -67,6 +68,7 @@ export class MakePostPageLoader extends PageLoader {
         $parent.empty();
         $(`#${selectId} > option`).each((i, obj) => {
             $child.attr("id", `${obj.value}`);
+            $child.attr("data-parent", obj.dataset.parent);
             $child.attr("aria-selected", "false");
             $child.text(obj.text);
             $child.removeClass("select2-results__option");
@@ -74,9 +76,11 @@ export class MakePostPageLoader extends PageLoader {
             $child.css("padding", "6px");
             $child.click((event) => {
                 $(`#${selectId}`).val($(event.target).attr("id"));
+                $(`#${selectId}`).attr("data-parent", $(event.target).data("parent"));
                 $(`#select2-${selectId}-container`).attr("title", $(event.target).attr("id"));
                 $(`#select2-${selectId}-container`).text($(`#${selectId} option[value=${$(event.target).attr("id")}]`).text());
                 $(`#${selectId}`).trigger('selected-option-changed')
+                //localStorage.setItem("objectGuid", $(event.target).data("parent"));
             });
             $parent.append($child);
             $child = $child.clone();
@@ -194,7 +198,7 @@ export class MakePostPageLoader extends PageLoader {
             description: $('#new-post-content').val(),
             readingTime: $('#new-post-reading-time-input').val(),
             image: $('#new-post-image-link-input').val() == "" ? null : $('#new-post-image-link-input').val(),
-            addressId: this.getAddressId(),
+            addressId: this.getAddressGuid(),
             tags: $('#new-post-tags-input').val()
         }
         if (this.validate(body)) {

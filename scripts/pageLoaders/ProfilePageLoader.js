@@ -77,5 +77,6 @@ export class ProfilePageLoader extends PageLoader {
 
     async loadPage(element = "body") {
         super.loadPage(element);
+        this.saveUserId();
     } 
 }

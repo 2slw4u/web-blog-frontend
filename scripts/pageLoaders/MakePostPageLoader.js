@@ -169,18 +169,18 @@ export class MakePostPageLoader extends PageLoader {
         })
     }
 
-    loadTags() {
+    loadTags(parentSelector) {
         this.Controller.tagList().then((response) => {
             return response.json();
         }).then((json) => {
             json.forEach(element => {
-                let $template = $("#groups-basic-option:first").clone();
+                let $template = $(".basic-option:first").clone();
                 $template.removeAttr("selected");
                 $template.attr("id", `tag-${element.name}`);
                 $template.attr("value", `${element.name}`);
                 $template.text(element.name);
                 $template.val(element.id);
-                $("#new-post-tags-input").append($template);
+                $(parentSelector).append($template);
             });
         }).catch((error) => {
             this.handleErros(error);
@@ -198,7 +198,6 @@ export class MakePostPageLoader extends PageLoader {
             tags: $('#new-post-tags-input').val()
         }
         if (this.validate(body)) {
-            console.log(body);
             if ($("#new-post-group-input").val() === "none") {
                 await this.Controller.postCreate(body).catch((error) => {
                     this.handleErros(error);
@@ -210,6 +209,7 @@ export class MakePostPageLoader extends PageLoader {
                     return error;
                 });
             }
+            console.log(body);
             return true;
         }
         return false;
@@ -220,7 +220,7 @@ export class MakePostPageLoader extends PageLoader {
             this.loadGroups();
         }).then(() => {
             Common.waitForElm("#new-post-tags-input").then(() => {
-                this.loadTags();
+                this.loadTags("#new-post-tags-input");
             });
         }).then(() => {
             Common.waitForElm("#create-post-button").then((elm) => {

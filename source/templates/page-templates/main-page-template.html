@@ -2,7 +2,7 @@
     <div class="make-post mb-2 p-0 authorized w-75">
         <button class="btn btn-primary float-end">Написать пост</button>
     </div>
-    <form class="posts-filters-form border border-1 rounded p-0 w-75">
+    <form class="posts-filters-form border border-1 rounded p-0 w-75" id="filters-form">
         <div class="header bg-light border-bottom p-2 ps-3">
             <span class=" fw-light line">Фильтры</span>
         </div>
@@ -17,12 +17,6 @@
                 <div class="tag-filter-column col-lg-6">
                     <label for="tag-filter" class="form-label mb-0">Поиск по тэгам</label>
                     <select class="input-group form-select" id="tag-filter" multiple size="3">
-                        <option>firstExample</option>
-                        <option>secondExample</option>
-                        <option>thirdExample</option>
-                        <option>firstExample</option>
-                        <option>secondExample</option>
-                        <option>thirdExample</option>
                     </select>
                 </div>
             </div>
@@ -30,30 +24,34 @@
                 <div class="sort-filter-column col-sm-12 col-lg-4 mb-3 mb-lg-0">
                     <label for="sort-filter" class="form-label mb-0">Сортировать</label>
                     <select id="sort-filter" class="form-select input-group">
-                        <option>По дате создания (сначала новые)</option>
-                        <option>По дате создания (сначала старые)</option>
-                        <option>По лайкам (сначала больше)</option>
-                        <option>По лайкам (сначала меньше)</option>
+                        <option class="basic-option" selected value="CreateDesc">По дате создания (сначала новые)</option>
+                        <option value="CreateAsc">По дате создания (сначала старые)</option>
+                        <option value="LikeDesc">По лайкам (сначала больше)</option>
+                        <option value="LikeAsc">По лайкам (сначала меньше)</option>
                     </select>
                 </div>
-                <div class="reading-time-from-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
-                    <label for="reading-time-from" class="form-label mb-0 text-break">Время чтения от</label>
+                <div class="reading-time-min-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label for="reading-time-min" class="form-label mb-0 text-break">Время чтения от</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="reading-time-from" autocomplete="off">
+                        <input type="text" class="form-control" id="reading-time-min" autocomplete="off">
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="reading-time-till-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
-                    <label for="reading-time-till" class="form-label mb-0">Время чтения до</label>
+                <div class="reading-time-max-column col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label for="reading-time-max" class="form-label mb-0">Время чтения до</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="reading-time-till" autocomplete="off">
+                        <input type="text" class="form-control" id="reading-time-max" autocomplete="off">
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="include-users-groups-column col-12 col-sm-6 col-lg-3 mb-3 mb-sm-0 pt-0 pt-lg-4">
                     <input type="checkbox" class="form-check-input" value="" id="include-only-users-groups-check">
-                    <label for="include-users-groups-check" class="form-check-label">Только мои группы</label>
+                    <label for="include-users-groups-check" class="form-check-label" id="only-users-groups">Только мои группы</label>
                 </div>
                 <div class="submit-button-column col-12 col-sm-6 col-lg-1 d-flex d-lg-block flex-column pt-0 pt-lg-4">
-                    <button type="button" class="btn btn-primary btn-sm float-end">Применить</button>
+                    <button type="button" class="btn btn-primary btn-sm float-end" id="action-apply-filters">Применить</button>
                 </div>  
             </div>
         </div>

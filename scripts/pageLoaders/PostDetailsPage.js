@@ -187,24 +187,24 @@ export class PostDetailsPageLoader extends PageLoader {
         let $post = $(`#Post-${postId}`);
         if (!allowExpanded && content.length > Common.default.MaxPostLength) {
             let saveContent = content;
-            content = content.slice(0, Common.default.MaxPostLength - 1);
-            $post.find("#expand-content").click((event) => {
-                $post.find("#post-content").text(saveContent);
+            content = content.slice(0, Common.default.MaxPostLength);
+            $post.find(".expand-content").click((event) => {
+                $post.find(".post-content").text(saveContent);
                 $(event.target).addClass("d-none");
             });
         }
         else {
-            $post.find("#expand-content").addClass("d-none");
+            $post.find(".expand-content").addClass("d-none");
         }
-        $post.find("#post-content").text(content);
+        $post.find(".post-content").text(content);
     }
 
     loadTags(postId, tags) {
         tags.forEach(element => {
             $.get("../../source/templates/element-templates/post-tag-template.html", null, function(data) {
                 let $template = $(data).clone();
-                $template.find("#tag-name").text(element.name);
-                $(`#Post-${postId}`).find("#tags-section").append($template);
+                $template.find(".tag-name").text(element.name);
+                $(`#Post-${postId}`).find(".tags-section").append($template);
             });
         });
     }
@@ -212,7 +212,7 @@ export class PostDetailsPageLoader extends PageLoader {
     loadAddress(postId, addressId) {
         let $post = $(`#Post-${postId}`);
         if (addressId == null) {
-            $post.find("#geo-tag-section").addClass("d-none");
+            $post.find(".geo-tag-section").addClass("d-none");
         }
         else {
             this.Controller.chainAddress(addressId).then((response) => {
@@ -223,29 +223,31 @@ export class PostDetailsPageLoader extends PageLoader {
                     result += `${element.text}, `;
                 });
                 result = result.slice(0, -2);
-                $post.find("#geo-tag-content").text(result);
+                $post.find(".geo-tag-content").text(result);
             });
         }
     } 
 
-    loadPostActions(postId) {
+    loadPostActions(postId, parentSelector) {
         let $post = $(`#Post-${postId}`);
-        $post.find($("#post-comment-section")).click(() => {
-            if (this.pathName !== "../../source/templates/page-templates/post-details-page-template.html") {
-                this.loadPage(postId, "#comment-section", 3000)
+        $post.find($(".post-comment-section")).click(() => {
+            if (parentSelector != "#pageContent") {
+                let _postDetailsPageLoader = new PostDetailsPageLoader();
+                _postDetailsPageLoader.loadPage(postId, "#comment-section", 3000)
             }
         })
-        $post.find("#post-name").click(() => {
-            if (this.pathName !== "../../source/templates/page-templates/post-details-page-template.html") {
-                this.loadPage(postId);
+        $post.find(".post-name").click(() => {
+            if (parentSelector != "#pageContent") {
+                let _postDetailsPageLoader = new PostDetailsPageLoader();
+                _postDetailsPageLoader.loadPage(postId);
             }
         })
-        $post.find($("#post-likes-section")).click(() => {
+        $post.find($(".post-likes-section")).click(() => {
             if (localStorage.getItem("token") != "null") {
-                let $target = $("#post-likes-section");
+                let $target = $post.find(".post-likes-section");
                 if ($target.hasClass("liked")) {
-                    $("#post-like-icon").attr("src", "../../source/images/hollow-heart-icon.svg");
-                    $("#post-likes-amount").text(Number($("#post-likes-amount").text()) - 1);
+                    $post.find(".post-like-icon").attr("src", "../../source/images/hollow-heart-icon.svg");
+                    $post.find(".post-likes-amount").text(Number($post.find(".post-likes-amount").text()) - 1);
                     $target.removeClass("liked");
                     this.Controller.postRemoveLike(postId).catch((error) => {
                         this.handleErros(error);
@@ -253,8 +255,8 @@ export class PostDetailsPageLoader extends PageLoader {
                     });
                 }
                 else {
-                    $("#post-like-icon").attr("src", "../../source/images/heart-icon.svg");
-                    $("#post-likes-amount").text(Number($("#post-likes-amount").text()) + 1);
+                    $post.find(".post-like-icon").attr("src", "../../source/images/heart-icon.svg");
+                    $post.find(".post-likes-amount").text(Number($post.find(".post-likes-amount").text()) + 1);
                     $target.addClass("liked");
                     this.Controller.postLike(postId).catch((error) => {
                         this.handleErros(error);
@@ -265,40 +267,46 @@ export class PostDetailsPageLoader extends PageLoader {
         })
     }
 
-    loadPost(json, position = Common.default.NewElementPosition.end) {
+    loadPost(json, parentSelector, allowExpanded, position = Common.default.NewElementPosition.end) {
         $.get("../../source/templates/element-templates/post-template.html", null, function(data) {
             let $template = $(data).clone();
             $template.attr("id", `Post-${json.id}`)
-            $template.find("#post-author-name").text(json.author);
-            $template.find("#post-date").text(Common.formatDate(json.createTime, true));
+            $template.find(".post-author-name").text(json.author);
+            $template.find(".post-date").text(Common.formatDate(json.createTime, true));
             if (json.communityId != null) {
-                $template.find("#post-group-location").text(`в сообществе ${json.communityName}`);
+                $template.find(".post-group-location").text(`в сообществе ${json.communityName}`);
             } 
-            $template.find("#post-name").text(json.title);
+            $template.find(".post-name").text(json.title);
             if (json.image != null) {
-                $template.find("#post-image").attr("src", json.image);
+                $template.find(".post-image").attr("src", json.image);
             }
             else {
-                $template.find("#post-image").addClass("d-none");
+                $template.find(".post-image").addClass("d-none");
             }
-            $template.find("#post-reading-time").text(json.readingTime);
-            $template.find("#post-comment-amount").text(json.commentsCount);
-            $template.find("#post-likes-amount").text(json.likes);
-            $template.find("#post-like-icon").attr("src", json.hasLike ? "../../source/images/heart-icon.svg" : "../../source/images/hollow-heart-icon.svg");
+            $template.find(".post-reading-time").text(json.readingTime);
+            $template.find(".post-comment-amount").text(json.commentsCount);
+            $template.find(".post-likes-amount").text(json.likes);
+            $template.find(".post-like-icon").attr("src", json.hasLike ? "../../source/images/heart-icon.svg" : "../../source/images/hollow-heart-icon.svg");
             if (json.hasLike) {
-                $template.find("#post-likes-section").addClass("liked");
+                $template.find(".post-likes-section").addClass("liked");
             }
             if (position == Common.default.NewElementPosition.start) {
-                $("#pageContent").prepend($template);
+                $(`${parentSelector}`).prepend($template);
             }
-            else {
-                $("#pageContent").append($template);
+            else if (position == Common.default.NewElementPosition.end) {
+                $(`${parentSelector}`).append($template);
+            }
+            else if (position == Common.default.NewElementPosition.before) {
+                $(`${parentSelector}`).before($template);
+            }
+            else if (position == Common.default.NewElementPosition.after) {
+                $(`${parentSelector}`).after($template);
             }
         }).then(() => {
-            this.loadPostContent(json.id, json.description, true);
+            this.loadPostContent(json.id, json.description, allowExpanded);
             this.loadTags(json.id, json.tags);
             this.loadAddress(json.id, json.addressId);
-            this.loadPostActions(json.id);
+            this.loadPostActions(json.id, parentSelector);
         });
     }
 
@@ -331,7 +339,7 @@ export class PostDetailsPageLoader extends PageLoader {
                 this.loadComments(json.comments, "comment-section", "../../source/templates/element-templates/comment-template.html");
                 delete json.comments;
             }
-            this.loadPost(json, Common.default.NewElementPosition.start);
+            this.loadPost(json, "#pageContent", true, Common.default.NewElementPosition.start);
         }).then(() => {
             this.loadCreateCommentSection();
         }).catch((error) => {
@@ -340,8 +348,8 @@ export class PostDetailsPageLoader extends PageLoader {
         })
     }
 
-    loadPage(postId, element = "body") {
+    loadPage(postId, element = "body", animationTime = 1000) {
         this.thisPostId = postId;
-        super.loadPage(element);
+        super.loadPage(element, animationTime);
     } 
 }

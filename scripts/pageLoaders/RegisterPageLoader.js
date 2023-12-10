@@ -60,6 +60,7 @@ export class RegisterPageLoader extends PageLoader {
                 localStorage.setItem("userEmail", body.email);
                 this._profilePageLoader.loadPage();
             }).catch((error) => {
+                Common.changeValidation('#email-input', 0, "This email has been taken");
                 this.handleErros(error);
                 return error;
             });

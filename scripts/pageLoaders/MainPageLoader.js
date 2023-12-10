@@ -81,13 +81,13 @@ export class MainPageLoader extends PageLoader {
         });
     }
 
-    loadPagination() {
+    loadPagination(groupId=null) {
         $.get("../../source/templates/element-templates/post-pagination-template.html", null, function (data) {
             let $template = $(data).clone();
             $("#pageContent").append($template);
         }).then(() => {
             $("#post-pagination-size").change(() => {
-                this.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after);
+                this.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after, groupId);
             })
         });
     }
@@ -113,8 +113,8 @@ export class MainPageLoader extends PageLoader {
                 return response.json();
             }).then((json) => {
                 console.log(json);
-                json.posts.forEach(post => {
-                    this._postDetailsPageLoader.loadPost(post, (`${parentSelector}`), false, position);
+                json.posts.forEach(async post => {
+                    await this._postDetailsPageLoader.loadPost(post, (`${parentSelector}`), false, position);
                 });
                 this.uploadPagination(json.pagination, communityId);
             }).catch((error) => {

@@ -48,7 +48,9 @@ export class CommunityPageLoader extends PageLoader {
                 _mainPageLoader.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after, this.thisGroupId);
             });
             _mainPageLoader.loadPagination();
-
+            Common.waitForElm("#post-pagination-size").then(() => {
+                _mainPageLoader.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after, this.thisGroupId);
+            });
         }
     }
 
@@ -83,7 +85,8 @@ export class CommunityPageLoader extends PageLoader {
                         case Common.default.CommunityRoles.admin:
                             $("#action-create-post").removeClass("d-none");
                             $("#action-create-post").click(() => {
-                                //доделать
+                                /* let _makePostPageLoader = new MakePostPageLoader(this.thisGroupId);
+                                _makePostPageLoader.loadPage(); */
                             });
                             break;
                         case Common.default.CommunityRoles.subscriber:

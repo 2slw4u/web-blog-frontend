@@ -5,6 +5,7 @@
 @import 'login.css';
 @import 'register.css';
 @import 'icons.css';
+@import 'textarea.css';
 
 html, body {
     height: 100%;

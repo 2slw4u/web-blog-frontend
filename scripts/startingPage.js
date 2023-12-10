@@ -10,5 +10,14 @@ let _startingPageLoader = new StartingPageLoader();
 document.addEventListener("DOMContentLoaded", async () => {
     localStorage.setItem("token", null);
     localStorage.setItem("userEmail", null);
+    localStorage.setItem("userId", null);
+    enableTooltips();
     _startingPageLoader.loadPage();
 })
+
+function enableTooltips() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    })
+}

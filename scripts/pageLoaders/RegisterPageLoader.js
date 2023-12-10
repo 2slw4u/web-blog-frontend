@@ -40,7 +40,6 @@ export class RegisterPageLoader extends PageLoader {
 
     loadPage(element = "body") {
         super.loadPage(element);
-        this.loadElements();
     } 
 
     register() {
@@ -58,7 +57,6 @@ export class RegisterPageLoader extends PageLoader {
                 return response.json();
             }).then((json) => {
                 localStorage.setItem("token", json["token"]);
-                localStorage.setItem("userEmail", body.email);
                 this._profilePageLoader.loadPage();
             }).catch((error) => {
                 this.handleErros(error);

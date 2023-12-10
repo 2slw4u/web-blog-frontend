@@ -46,7 +46,7 @@ export class PageLoader {
     }
 
     //Стандартное поведение - загрузка всего нужного в <content> страницы
-    async loadPage(element = "body") {
+    async loadPage(scrollToElement = "body", animationTime = 1000) {
         return new Promise(async() => {
             $("#pageContent").empty();
             $.get(this.pathName, null, function(data){
@@ -59,10 +59,10 @@ export class PageLoader {
                 this.loadNavElements();
                 this.loadElements();
             })
-            await Common.waitForElm(element).then((elm) => {
+            await Common.waitForElm(scrollToElement).then(() => {
                 $('html, body').animate({
-                    scrollTop: $(element).offset().top
-                }, 1000);
+                    scrollTop: $(scrollToElement).offset().top
+                }, animationTime);
             });
         });
     }

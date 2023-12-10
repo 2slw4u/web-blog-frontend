@@ -32,7 +32,7 @@ export class MainPageLoader extends PageLoader {
 
     loadActions() {
         $("#action-apply-filters").click(async () => {
-            this.loadPosts(1, "#filters-form", Common.default.NewElementPosition.after);
+            this.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after);
         });
         $("#create-post-button").click(() => {
             $("#nav-make-post-page").trigger("click");
@@ -40,7 +40,7 @@ export class MainPageLoader extends PageLoader {
         $("#author-filter").val(this.authorFilter);
     }
 
-    uploadPagination(pagination) {
+    uploadPagination(pagination, communityId = null) {
         console.log(pagination);
         $.get("../../source/templates/element-templates/post-pagination-template.html", null, function (data) {
             let $template = $(data).clone();
@@ -63,19 +63,19 @@ export class MainPageLoader extends PageLoader {
             if (pagination.current - 1 > 0) {
                 let $pageBefore = $("#pagination-before-basic-option");
                 $pageBefore.click(() => {
-                    this.loadPosts(Number($pageBefore.find(".page-link").text()), "#filters-form", Common.default.NewElementPosition.after);
+                    this.loadPosts(this.formBody(Number($pageBefore.find(".page-link").text())), "#filters-form", Common.default.NewElementPosition.after, communityId);
                 });
                 $("#pagination-previous-item").click(() => {
-                    this.loadPosts(pagination.current - 1, "#filters-form", Common.default.NewElementPosition.after);
+                    this.loadPosts(this.formBody(pagination.current - 1), "#filters-form", Common.default.NewElementPosition.after, communityId);
                 });
             }
             if (pagination.current + 1 <= pagination.count) {
                 let $pageAfter = $("#pagination-after-basic-option");
                 $pageAfter.click(() => {
-                    this.loadPosts(Number($pageAfter.find(".page-link").text()), "#filters-form", Common.default.NewElementPosition.after);
+                    this.loadPosts(this.formBody(Number($pageAfter.find(".page-link").text())), "#filters-form", Common.default.NewElementPosition.after, communityId);
                 });
                 $("#pagination-next-item").click(() => {
-                    this.loadPosts(pagination.current + 1, "#filters-form", Common.default.NewElementPosition.after);
+                    this.loadPosts(this.formBody(pagination.current + 1), "#filters-form", Common.default.NewElementPosition.after, communityId);
                 });
             }
         });
@@ -87,35 +87,56 @@ export class MainPageLoader extends PageLoader {
             $("#pageContent").append($template);
         }).then(() => {
             $("#post-pagination-size").change(() => {
-                this.loadPosts(1, "#filters-form", Common.default.NewElementPosition.after);
+                this.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after);
             })
         });
     }
 
-    loadPosts(page, parentSelector, position) {
+    formBody(page) {
         let body = {
             tag: $("#tag-filter").val().length == 0 ? null : $("#tag-filter").val(),
             author: $("#author-filter").val() == "" ? null : $("#author-filter").val(),
             min: $("#reading-time-min").val() == "" ? null : $("#reading-time-min").val(),
             max: $("#reading-time-max").val() == "" ? null : $("#reading-time-max").val(),
             sorting: $("#sort-filter").val(),
-            onlyMyCommunities: $("#only-users-groups").attr("checked") == 0 ? false : true,
+            onlyMyCommunities: $("#include-only-users-groups-check").is(":checked") == false ? false : true,
             page: page,
             size: $("#post-pagination-size").val()
         };
-        if (this.validate(body)) {
+        return body;
+    }
+
+    loadPosts(body, parentSelector, position, communityId=null) {
+        if (communityId != null) {
             $(".post-template").remove();
-            this.Controller.postList(body).then((response) => {
+            this.Controller.communityPosts(communityId, body).then((response) => {
                 return response.json();
             }).then((json) => {
+                console.log(json);
                 json.posts.forEach(post => {
                     this._postDetailsPageLoader.loadPost(post, (`${parentSelector}`), false, position);
                 });
-                this.uploadPagination(json.pagination);
+                this.uploadPagination(json.pagination, communityId);
             }).catch((error) => {
                 this.handleErrors(error);
                 return error;
             })
+        }
+        else {
+            if (this.validate(body)) {
+                $(".post-template").remove();
+                this.Controller.postList(body).then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    json.posts.forEach(post => {
+                        this._postDetailsPageLoader.loadPost(post, (`${parentSelector}`), false, position);
+                    });
+                    this.uploadPagination(json.pagination);
+                }).catch((error) => {
+                    this.handleErrors(error);
+                    return error;
+                })
+            }
         }
     }
 
@@ -124,10 +145,7 @@ export class MainPageLoader extends PageLoader {
         this.loadActions();
         this.loadPagination();
         Common.waitForElm("#post-pagination-size").then(() => {
-            this.loadPosts(1, "#filters-form", Common.default.NewElementPosition.after);
-        });
-        Common.waitForElm("#author-filter").then(() => {
-            //console.log(authorFilter);
+            this.loadPosts(this.formBody(1), "#filters-form", Common.default.NewElementPosition.after);
         });
     }
 

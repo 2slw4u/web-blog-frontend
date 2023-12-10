@@ -107,7 +107,31 @@ export class ApiController {
     }
 
     async communityPosts(communityId, body) {
-        return this.executeMethod(Methods.get, `community/${communityId}/post`, body)
+        let array = [];
+        if (body.tag != null) {
+            body.tag.forEach(element => {
+                array.push({
+                    name: "tag",
+                    value: element
+                });
+            });
+        }
+        array.push({
+            name: "sorting",
+            value: body.sorting
+        })
+        array.push({
+            name: "page",
+            value: body.page
+        })
+        array.push({
+            name: "size",
+            value: body.size
+        })
+        let fetchAdditive = "";
+        fetchAdditive = await this.formFetchAdditive(array);
+        console.log(`post${fetchAdditive}`);
+        return this.executeMethod(Methods.get, `community/${communityId}/post${fetchAdditive}`)
     }
 
     async communityPostCreate(communityId, body) {
@@ -172,7 +196,6 @@ export class ApiController {
         })
         let fetchAdditive = "";
         fetchAdditive = await this.formFetchAdditive(array);
-        console.log(`post${fetchAdditive}`);
         return this.executeMethod(Methods.get, `post${fetchAdditive}`);
     }
 

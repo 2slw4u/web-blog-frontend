@@ -1,6 +1,7 @@
 import { PageLoader } from "./PageLoader.js";
 import Common from "../startingPage.js";
 import { ApiController } from "../api/ApiController.js";
+import { CommunityPageLoader } from "./CommunityPageLoader.js";
 
 export class CommunitiesPageLoader extends PageLoader {
 
@@ -21,10 +22,14 @@ export class CommunitiesPageLoader extends PageLoader {
             let $template = $(data).clone();
             let _apiController = new ApiController();
             let _communitiesPageLoader = new CommunitiesPageLoader();
-            $template.attr("id", `Group${index}`);
+            $template.attr("id", `${element.id}`);
             $template.find("#community-name").text(element.name);
+            $template.find("#community-name").click(() => {
+                let _communityPageLoader = new CommunityPageLoader(element.id);
+                _communityPageLoader.loadPage();
+            })
             let $actionButton = $template.find("#community-action");
-            $actionButton.attr("id", `Button${index}`)
+            $actionButton.attr("id", `Button-${element.id}`)
             switch (role) {
                 case Common.default.CommunityRoles.subscriber:
                     $actionButton.text("Отписаться");

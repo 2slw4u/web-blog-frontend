@@ -1,4 +1,5 @@
 import Common from "../startingPage.js";
+import { MainPageLoader } from "./MainPageLoader.js";
 import { PageLoader } from "./PageLoader.js";
 
 export class AuthorsPageLoader extends PageLoader {
@@ -15,41 +16,13 @@ export class AuthorsPageLoader extends PageLoader {
         super.handleErrors();
     }
 
-    loadElements() {
+    setUpCrowns() {
         this.Controller.authorList().then((response) => {
             return response.json();
         }).then((json) => {
-            //deep copying json
-            let temp = JSON.parse(JSON.stringify(json));
-            temp.sort((a,b) => {
-                if (a.fullName.toLowerCase() <= b.fullName.toLowerCase()) {
-                    return -1;
-                }
-                if (a.fullName.toLowerCase() > b.fullName.toLowerCase()) {
-                    return 1;
-                }
-                return 0;
-            });
-            temp.forEach((element) => {
-                $.get("../../source/templates/element-templates/author-template.html", null, function(data){
-                    let $template = $(data).clone();
-                    $template.attr("id", `${element.fullName}`);
-                    let authorIconSource = element.gender === 'Male'? "../../source/images/male-avatar-icon.svg" : "../../source/images/female-avatar-icon.svg";
-                    $template.find("#author-icon").attr("src", authorIconSource);
-                    $template.find("#author-nickname").text(element.fullName);
-                    $template.find("#author-acc-create-date").text(`Создан: ${Common.formatDate(element.created)}`);
-                    $template.find("#author-posts-amount").text(element.posts);
-                    $template.find("#author-likes-amount").text(element.likes);
-                    $template.find("#author-DOB").text(Common.formatDate(element.birthDate));
-                    $template.find("#ratingIcon").addClass("d-none");;
-                    $("#pageContent").append($template);
-                })
-            });
-            return json;
-        }).then(async (json) => {
             json.sort((a,b) => ((a.posts + a.likes) > (b.posts + b.likes)) ? -1 : 1);
             let authors = [];
-            await Common.waitForElm(`#${json[0].fullName}`).then(() => {
+            Common.waitForElm(`#${json[0].fullName}`).then(() => {
                 for (let i = 0; i < json.length && i < 3; ++i) {
                     authors.push($(`#${json[i].fullName}`));
                 }
@@ -66,10 +39,40 @@ export class AuthorsPageLoader extends PageLoader {
                     }
                 });
             });
+        })
+    }
+
+    loadElements() {
+        this.Controller.authorList().then((response) => {
+            return response.json();
+        }).then((json) => {
+            json.forEach((element) => {
+                $.get("../../source/templates/element-templates/author-template.html", null, function(data){
+                    let $template = $(data).clone();
+                    $template.attr("id", `${element.fullName}`);
+                    let authorIconSource = element.gender === 'Male'? "../../source/images/male-avatar-icon.svg" : "../../source/images/female-avatar-icon.svg";
+                    $template.find("#author-icon").attr("src", authorIconSource);
+                    $template.find("#author-nickname").text(element.fullName);
+                    $template.find("#author-acc-create-date").text(`Создан: ${Common.formatDate(element.created)}`);
+                    $template.find("#author-posts-amount").text(element.posts);
+                    $template.find("#author-likes-amount").text(element.likes);
+                    $template.find("#author-DOB").text(Common.formatDate(element.birthDate));
+                    $template.find("#ratingIcon").addClass("d-none");
+                    $template.click((event) => {
+                        let _mainPageLoader = new MainPageLoader();
+                        //console.log(element.fullName);
+                        _mainPageLoader.loadPage(element.fullName);
+                    });
+                    $("#pageContent").append($template);
+                })
+            });
+            return json;
         }).catch((error) => {
             this.handleErrors(error);
             return error;
-        });
+        }).finally(() => {
+            this.setUpCrowns();
+        })
     }
 
     loadPage(element = "body") {

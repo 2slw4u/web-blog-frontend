@@ -213,7 +213,6 @@ export class MakePostPageLoader extends PageLoader {
                     return error;
                 });
             }
-            console.log(body);
             return true;
         }
         return false;
@@ -230,7 +229,7 @@ export class MakePostPageLoader extends PageLoader {
             Common.waitForElm("#create-post-button").then((elm) => {
                 $(elm).click(() => {
                     if (this.createPost()) {
-                        $("nav-main-page").trigger("click");
+                        $("#nav-main-page").trigger("click");
                     }
                 });
             });

@@ -7,10 +7,12 @@ import { PostDetailsPageLoader } from "./PostDetailsPage.js";
 
 export class MainPageLoader extends PageLoader {
 
+
     constructor() {
         super("../../source/templates/page-templates/main-page-template.html");
         this._makePostPageLoader = new MakePostPageLoader();
         this._postDetailsPageLoader = new PostDetailsPageLoader();
+        this.authorFilter = null;
     }
 
     handleErrors(err) {
@@ -32,9 +34,14 @@ export class MainPageLoader extends PageLoader {
         $("#action-apply-filters").click(async () => {
             this.loadPosts(1, "#filters-form", Common.default.NewElementPosition.after);
         });
+        $("#create-post-button").click(() => {
+            $("#nav-make-post-page").trigger("click");
+        });
+        $("#author-filter").val(this.authorFilter);
     }
 
     uploadPagination(pagination) {
+        console.log(pagination);
         $.get("../../source/templates/element-templates/post-pagination-template.html", null, function (data) {
             let $template = $(data).clone();
             $template = $template.find(".post-pagination-nav-template");
@@ -43,14 +50,12 @@ export class MainPageLoader extends PageLoader {
                 let $pageBefore = $("#pagination-basic-option").clone();
                 $pageBefore.attr("id", "pagination-before-basic-option");
                 $pageBefore.find(".page-link").text(pagination.current - 1);
-                console.log($pageBefore);
                 $template.find("#pagination-basic-option").before($pageBefore);
             }
-            if (pagination.current + 1 <= pagination.size) {
+            if (pagination.current + 1 <= pagination.count) {
                 let $pageAfter = $("#pagination-basic-option").clone();
                 $pageAfter.attr("id", "pagination-after-basic-option");
                 $pageAfter.find(".page-link").text(pagination.current + 1);
-                console.log($pageAfter);
                 $template.find("#pagination-basic-option").after($pageAfter);
             }
             $(".post-pagination-nav-template").replaceWith($template);
@@ -64,7 +69,7 @@ export class MainPageLoader extends PageLoader {
                     this.loadPosts(pagination.current - 1, "#filters-form", Common.default.NewElementPosition.after);
                 });
             }
-            if (pagination.current + 1 <= pagination.size) {
+            if (pagination.current + 1 <= pagination.count) {
                 let $pageAfter = $("#pagination-after-basic-option");
                 $pageAfter.click(() => {
                     this.loadPosts(Number($pageAfter.find(".page-link").text()), "#filters-form", Common.default.NewElementPosition.after);
@@ -103,7 +108,6 @@ export class MainPageLoader extends PageLoader {
             this.Controller.postList(body).then((response) => {
                 return response.json();
             }).then((json) => {
-                console.log(json);
                 json.posts.forEach(post => {
                     this._postDetailsPageLoader.loadPost(post, (`${parentSelector}`), false, position);
                 });
@@ -112,7 +116,6 @@ export class MainPageLoader extends PageLoader {
                 this.handleErrors(error);
                 return error;
             })
-            //console.log(body);
         }
     }
 
@@ -123,9 +126,13 @@ export class MainPageLoader extends PageLoader {
         Common.waitForElm("#post-pagination-size").then(() => {
             this.loadPosts(1, "#filters-form", Common.default.NewElementPosition.after);
         });
+        Common.waitForElm("#author-filter").then(() => {
+            //console.log(authorFilter);
+        });
     }
 
-    async loadPage(element = "body") {
-        super.loadPage(element);
+    async loadPage(authorFilter = null, element = "body") {
+        this.authorFilter = authorFilter;
+        await super.loadPage(element)
     } 
 }

@@ -72,6 +72,16 @@ export class Validator {
         return new ValidationResult(true, container, "Looks suitable!"); 
     }
 
+    static validateContent(content, container) {
+        if (content.length <= 3) {
+            return new ValidationResult(false, container, "Don't be shy"); 
+        }
+        if (content.length >= 50) {
+            return new ValidationResult(false, container, "What's bro yapping about"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
+
     static validatePostTitle(title, container) {
         if (title.length < 5) {
             return new ValidationResult(false, container, "Title shouldn't be shorter than 5 symbols"); 

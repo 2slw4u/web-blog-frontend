@@ -9,6 +9,18 @@ export class ApiController {
     constructor() {
         this.url_common = "https://blog.kreosoft.space/api/";
     }
+    
+    async formFetchAdditive(array) {
+        if (array.length == 0) {
+            return "";
+        } 
+        let result = array.length < 1 ? "" : `?${array[0].name}=${array[0].value}`;
+        for (let i = 1; i < array.length; i++) {
+            const element = array[i];
+            result += `&${element.name}=${element.value}`;
+        }
+        return result;
+    }
 
     async formFetchAdditive(array) {
         let result = array.length < 1 ? "" : `?${array[0].name}=${array[0].value}`;
@@ -58,8 +70,17 @@ export class ApiController {
         return this.executeMethod(Methods.get, `address/search${fetchAdditive}`)
     }
 
-    async chainAddress(body) {
-        return this.executeMethod(Methods.get, "address/chain", body)
+    async chainAddress(objectGuid) {
+        let array = [];
+        if (objectGuid != null) {
+            array.push({
+                name: "objectGuid",
+                value: objectGuid 
+            })
+        }
+        let fetchAdditive = "";
+        fetchAdditive = await this.formFetchAdditive(array);
+        return this.executeMethod(Methods.get, `address/chain${fetchAdditive}`)
     }
 
     async authorList(body) {
@@ -71,7 +92,7 @@ export class ApiController {
     }
     
     async commentPost(postId, body) {
-        return this.executeMethod(Methods.post, `post/${postId}/tree`, body)
+        return this.executeMethod(Methods.post, `post/${postId}/comment`, body)
     }
 
     async commentEdit(commentId, body) {

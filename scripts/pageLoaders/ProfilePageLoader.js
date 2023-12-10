@@ -66,7 +66,17 @@ export class ProfilePageLoader extends PageLoader {
         PageLoader.displayElements([".profile-nav-item"]);
     }
 
+    saveUserId() {
+        this.Controller.accountInfo().then((response) => {
+            return response.json();
+        }).then((json) => {
+            localStorage.setItem("userId", json.id);
+            localStorage.setItem("userEmail", json.email);
+        })
+    }
+
     loadPage(element = "body") {
         super.loadPage(element);
+        this.saveUserId();
     } 
 }

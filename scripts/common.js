@@ -17,6 +17,14 @@ export const CommunityRoles = {
     admin: "Administrator"
 }
 
+export const NewElementPosition = {
+    start: "start",
+    end: "end"
+}
+
+export const MaxPostLength = 200;
+
+export const Deleted = "[УДАЛЕНО]";
 
 export function changeValidation(selector, enable, text=null) {
     if (enable == 1) {
@@ -80,6 +88,9 @@ export function waitForElm(selector) {
 }
 
 function formatDateComponent(component, goal) {
+    if (component == 0) {
+        component = 1;
+    } 
     if (component < goal) {
         let result = component.toString();
         while (component < goal) {
@@ -91,7 +102,11 @@ function formatDateComponent(component, goal) {
     return component.toString();
 }
 
-export function convertDateToDateInput(date) {
+
+export function formatDate(date, full=false) {
     let unformattedDate = new Date(date);
+    if (full) {
+        return `${formatDateComponent(unformattedDate.getFullYear(), 1000)}-${formatDateComponent(unformattedDate.getMonth() + 1, 10)}-${formatDateComponent(unformattedDate.getDate(), 10)} ${formatDateComponent(unformattedDate.getHours(), 10)}:${formatDateComponent(unformattedDate.getMinutes(), 10)}`
+    }
     return `${formatDateComponent(unformattedDate.getFullYear(), 1000)}-${formatDateComponent(unformattedDate.getMonth() + 1, 10)}-${formatDateComponent(unformattedDate.getDate(), 10)}`
 }

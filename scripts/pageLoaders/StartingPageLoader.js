@@ -6,6 +6,7 @@ import { MakePostPageLoader } from "./MakePostPageLoader.js";
 import { AuthorsPageLoader } from "./AuthorsPageLoader.js";
 import { CommunitiesPageLoader } from "./CommunitiesPageLoader.js";
 import { ProfilePageLoader } from "./ProfilePageLoader.js";
+import { PostDetailsPageLoader } from "./PostDetailsPage.js";
 
 export class StartingPageLoader extends PageLoader {
     _pageLoader = new PageLoader();
@@ -69,6 +70,11 @@ export class StartingPageLoader extends PageLoader {
         $("#nav-logout").click(() => {
             this.logout();
         });
+    }
+
+    loadNavElements() {
+        PageLoader.hideAll();
+        Common.changeAuthorizedDisplay();
     }
 
     //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content> и не показывает никакие данные, 

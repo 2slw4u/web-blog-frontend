@@ -1,0 +1,33 @@
+<div class="comment-template text-break" id="comment-template">
+    <span class="text-muted comment-user-name"></span>
+    <div class="d-inline-block authorized comment-user-actions">
+        <a class="mb-0 text-decoration-none action-edit" href="#">
+            <img src="/source/images/pencil-fill.svg" alt="edit" class="icon">
+        </a>
+        <a class="mb-0 text=text-decoration-none action-delete" href="#">
+            <img src="/source/images/trash-fill.svg" alt="delete" class="icon">
+        </a>
+    </div>
+    <div class="comment-content-wrapper">
+        <span class="py-2 comment-content"></span>
+        <span class="text-muted ps-2 comment-edited-flag" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="">(изменено)</span>
+        <div class="py-2 mx-0 row d-flex justify-content-between comment-edit-section">
+            <input type="text" class="comment-edit-content-input col-12 col-lg-8 mb-2 mb-lg-0" autocomplete="off">
+            <button class="btn btn-warning col-lg-3 submit-edit-comment">Редактировать</button>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+    <span class="text-muted pb-2 comment-create-date"></span>
+    <a href="#" class="text-decoration-none d-inline action-initialize-response">Ответить</a>
+    <div class="py-2 mx-0 row d-flex justify-content-between comment-create-response-section">
+        <input type="text" class="col-12 col-lg-8 mb-2 mb-lg-0 comment-create-response-input" autocomplete="off">
+        <button class="btn btn-primary col-lg-2 action-send-response">Сохранить</button>
+        <div class="valid-feedback"></div>
+        <div class="invalid-feedback"></div>
+    </div>
+    <div class="responses-section">
+        <a href="#" class="text-decoration-none d-block action-show-responses">Раскрыть ответы</a>
+    </div>
+</div>

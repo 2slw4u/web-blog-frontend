@@ -137,7 +137,7 @@ export class PostDetailsPageLoader extends PageLoader {
         if (localStorage.getItem("token") == "null") {
             $comment.find(".action-initialize-response").addClass("d-none");
         }
-        if (authorId == localStorage.getItem("userId") && $comment.find(".comment-user-name").text() != Common.Deleted) {
+        if (authorId == localStorage.getItem("userId") && $comment.find(".comment-user-name").text() != Common.default.Deleted) {
             $comment.find(".comment-user-actions").removeClass("d-none");
         }
         
@@ -166,8 +166,8 @@ export class PostDetailsPageLoader extends PageLoader {
                     }
                 }
                 else {
-                    $template.find(".comment-user-name").text(Common.Deleted);
-                    $template.find(".comment-content").text(Common.Deleted);
+                    $template.find(".comment-user-name").text(Common.default.Deleted);
+                    $template.find(".comment-content").text(Common.default.Deleted);
                     $template.find(".comment-edited-flag").addClass("d-none");
                 }
                 $template.find(".comment-edit-section").addClass("d-none");
@@ -185,9 +185,9 @@ export class PostDetailsPageLoader extends PageLoader {
 
     loadPostContent(postId, content, allowExpanded = false) {
         let $post = $(`#Post-${postId}`);
-        if (!allowExpanded && content.length > Common.MaxPostLength) {
+        if (!allowExpanded && content.length > Common.default.MaxPostLength) {
             let saveContent = content;
-            content = content.slice(0, Common.MaxPostLength - 1);
+            content = content.slice(0, Common.default.MaxPostLength - 1);
             $post.find("#expand-content").click((event) => {
                 $post.find("#post-content").text(saveContent);
                 $(event.target).addClass("d-none");
@@ -265,7 +265,7 @@ export class PostDetailsPageLoader extends PageLoader {
         })
     }
 
-    loadPost(json, position = Common.NewElementPosition.end) {
+    loadPost(json, position = Common.default.NewElementPosition.end) {
         $.get("../../source/templates/element-templates/post-template.html", null, function(data) {
             let $template = $(data).clone();
             $template.attr("id", `Post-${json.id}`)
@@ -288,7 +288,7 @@ export class PostDetailsPageLoader extends PageLoader {
             if (json.hasLike) {
                 $template.find("#post-likes-section").addClass("liked");
             }
-            if (position == Common.NewElementPosition.start) {
+            if (position == Common.default.NewElementPosition.start) {
                 $("#pageContent").prepend($template);
             }
             else {
@@ -331,7 +331,7 @@ export class PostDetailsPageLoader extends PageLoader {
                 this.loadComments(json.comments, "comment-section", "../../source/templates/element-templates/comment-template.html");
                 delete json.comments;
             }
-            this.loadPost(json, Common.NewElementPosition.start);
+            this.loadPost(json, Common.default.NewElementPosition.start);
         }).then(() => {
             this.loadCreateCommentSection();
         }).catch((error) => {

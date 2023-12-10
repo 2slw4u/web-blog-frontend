@@ -26,7 +26,7 @@ export class CommunitiesPageLoader extends PageLoader {
             let $actionButton = $template.find("#community-action");
             $actionButton.attr("id", `Button${index}`)
             switch (role) {
-                case Common.CommunityRoles.subscriber:
+                case Common.default.CommunityRoles.subscriber:
                     $actionButton.text("Отписаться");
                     $actionButton.addClass("btn-danger");
                     $actionButton.click(() => {
@@ -37,7 +37,7 @@ export class CommunitiesPageLoader extends PageLoader {
                         _communitiesPageLoader.loadPage(`#${$actionButton.attr("id")}`);
                     }) 
                     break;
-                case Common.CommunityRoles.admin:
+                case Common.default.CommunityRoles.admin:
                     $actionButton.addClass("d-none");
                     break;
                 case null:

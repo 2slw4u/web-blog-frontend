@@ -9,14 +9,14 @@ export class PageLoader {
     }
 
     static hideAll() {
-        for (let elementClass in Common.CommonElementClasses) {
-            Common.changeDisplayOfElements(Common.CommonElementClasses[elementClass], Common.Enabling.disable);
+        for (let elementClass in Common.default.CommonElementClasses) {
+            Common.changeDisplayOfElements(Common.default.CommonElementClasses[elementClass], Common.default.Enabling.disable);
         }
     }
 
     static displayElements(selectors) {
         selectors.forEach((selector) => {
-            Common.changeDisplayOfElements(selector, Common.Enabling.enable);
+            Common.changeDisplayOfElements(selector, Common.default.Enabling.enable);
         })
     }
     
@@ -35,9 +35,9 @@ export class PageLoader {
     validate(errors) {
         let flag = true;
         errors.forEach(element => {
-            let enabling = Common.Enabling.enable;
+            let enabling = Common.default.Enabling.enable;
             if (!element.success) {
-                enabling = Common.Enabling.disable;
+                enabling = Common.default.Enabling.disable;
                 flag = false;
             }
             Common.changeValidation(element.container, enabling, element.message);

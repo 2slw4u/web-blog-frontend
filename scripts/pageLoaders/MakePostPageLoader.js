@@ -144,7 +144,7 @@ export class MakePostPageLoader extends PageLoader {
             return response.json();
         }).then((json) => {
             json.forEach(element => {
-                if (element.role == Common.CommunityRoles.admin) {
+                if (element.role == Common.default.CommunityRoles.admin) {
                     this.Controller.communityInfo(element.communityId)
                         .then((response) => {
                             return response.json();

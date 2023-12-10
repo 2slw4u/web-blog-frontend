@@ -22,16 +22,14 @@ export class LoginPageLoader extends PageLoader {
 
     handleErros(err) {
         super.handleErrors(err);
-        Common.changeValidation("#email-input", Common.Enabling.disable, "Not quite right email..");
-        Common.changeValidation("#password-input", Common.Enabling.disable, "..or password");
+        Common.changeValidation("#email-input", Common.default.Enabling.disable, "Not quite right email..");
+        Common.changeValidation("#password-input", Common.default.Enabling.disable, "..or password");
     }
 
     async loadElements() {
         await Common.waitForElm("#login-button").then((elm) => {
             $(elm).click(() => {
-                this.login().then(() => {
-                    this._profilePageLoader.loadPage();
-                });
+                this.login();
             });
         });
         await Common.waitForElm("#register-button").then((elm) => {

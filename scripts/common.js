@@ -1,30 +1,6 @@
-export const Enabling = {
-    enable: 1,
-    disable: 0
-}
+import * as Constants from '../source/constants/constants.js';
 
-export const CommonElementClasses = {
-    authorizedElement: ".authorized",
-    unauthorizedElement: ".unauthorized",
-    mainNavElement: ".main-nav-item",
-    profileNavElement: ".profile-nav-item",
-    authorsNavElement: ".authors-nav-item"
-}
-
-export const CommunityRoles = {
-    nobody: "null",
-    subscriber: "Subscriber",
-    admin: "Administrator"
-}
-
-export const NewElementPosition = {
-    start: "start",
-    end: "end"
-}
-
-export const MaxPostLength = 200;
-
-export const Deleted = "[УДАЛЕНО]";
+export default Constants; 
 
 export function changeValidation(selector, enable, text=null) {
     if (enable == 1) {
@@ -57,13 +33,13 @@ function defineUsersAuthorization() {
 
 export function changeAuthorizedDisplay() {
     if (defineUsersAuthorization()) {
-        changeDisplayOfElements(CommonElementClasses.authorizedElement, Enabling.enable);
-        changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.disable);
+        changeDisplayOfElements(Constants.CommonElementClasses.authorizedElement, Constants.Enabling.enable);
+        changeDisplayOfElements(Constants.CommonElementClasses.unauthorizedElement, Constants.Enabling.disable);
         $("#nav-user-menu").text(localStorage.getItem("userEmail"));
     }
     else {
-        changeDisplayOfElements(CommonElementClasses.authorizedElement, Enabling.disable);
-        changeDisplayOfElements(CommonElementClasses.unauthorizedElement, Enabling.enable);
+        changeDisplayOfElements(Constants.CommonElementClasses.authorizedElement, Constants.Enabling.disable);
+        changeDisplayOfElements(Constants.CommonElementClasses.unauthorizedElement, Constants.Enabling.enable);
     }
 }
 

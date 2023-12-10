@@ -22,10 +22,10 @@ export class AuthorsPageLoader extends PageLoader {
             //deep copying json
             let temp = JSON.parse(JSON.stringify(json));
             temp.sort((a,b) => {
-                if (a.fullName.toString().toLowerCase() < b.fullName.toString().toLowerCase()) {
+                if (a.fullName.toLowerCase() <= b.fullName.toLowerCase()) {
                     return -1;
                 }
-                if (a.fullName.toString().toLowerCase() > b.fullName.toString().toLowerCase()) {
+                if (a.fullName.toLowerCase() > b.fullName.toLowerCase()) {
                     return 1;
                 }
                 return 0;

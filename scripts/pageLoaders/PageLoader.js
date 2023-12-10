@@ -46,16 +46,16 @@ export class PageLoader {
     }
 
     //Стандартное поведение - загрузка всего нужного в <content> страницы
-    async loadPage(scrollToElement = "body", animationTime = 1000) {
+    loadPage(scrollToElement = "body", animationTime = 1000) {
         return new Promise(async() => {
             $("#pageContent").empty();
             $.get(this.pathName, null, function(data){
-                var $template = $(data).clone();
+                let $template = $(data).clone();
                 $template.attr("id", "pageContent");
                 $("#pageContent").replaceWith($template);
+            }).then(() => {
                 PageLoader.hideAll();
                 Common.changeAuthorizedDisplay();
-            }).then(() => {
                 this.loadNavElements();
                 this.loadElements();
             })

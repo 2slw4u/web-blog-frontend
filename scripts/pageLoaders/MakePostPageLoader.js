@@ -189,7 +189,7 @@ export class MakePostPageLoader extends PageLoader {
     }
 
     async createPost() {
-        var body = {
+        let body = {
             title: $('#new-post-name-input').val(),
             description: $('#new-post-content').val(),
             readingTime: $('#new-post-reading-time-input').val(),
@@ -198,6 +198,7 @@ export class MakePostPageLoader extends PageLoader {
             tags: $('#new-post-tags-input').val()
         }
         if (this.validate(body)) {
+            console.log(body);
             if ($("#new-post-group-input").val() === "none") {
                 await this.Controller.postCreate(body).catch((error) => {
                     this.handleErros(error);

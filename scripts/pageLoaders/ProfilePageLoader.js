@@ -17,12 +17,12 @@ export class ProfilePageLoader extends PageLoader {
         return super.validate(errors);
     }
 
-    handleErros(err) {
+    async handleErros(err) {
         super.handleErrors(err);
     }
 
     async editProfile() {
-        var body = {
+        let body = {
             email: $('#email-input').val(),
             fullName: $('#full-name-input').val(),
             birthDate: new Date($('#dob-input').val()),
@@ -38,13 +38,13 @@ export class ProfilePageLoader extends PageLoader {
     }
 
     async loadProfileData() {
-        var response = this.Controller.accountInfo().then((response) => {
+        this.Controller.accountInfo().then((response) => {
             return response.json();
         }).then((json) => {
             $("#email-input").val(json.email);
             $("#full-name-input").val(json.fullName);
             $("#sex-input").val(json.gender);
-            $("#dob-input").val(Common.convertDateToDateInput(json.birthDate));
+            $("#dob-input").val(Common.formatDate(json.birthDate));
             $("#tel-input").val(json.phoneNumber);
         }).catch((error) => {
             this.handleErros(error);
@@ -66,7 +66,7 @@ export class ProfilePageLoader extends PageLoader {
         PageLoader.displayElements([".profile-nav-item"]);
     }
 
-    saveUserId() {
+    async saveUserId() {
         this.Controller.accountInfo().then((response) => {
             return response.json();
         }).then((json) => {
@@ -75,8 +75,7 @@ export class ProfilePageLoader extends PageLoader {
         })
     }
 
-    loadPage(element = "body") {
+    async loadPage(element = "body") {
         super.loadPage(element);
-        this.saveUserId();
     } 
 }

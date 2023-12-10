@@ -58,7 +58,7 @@ export class CommunitiesPageLoader extends PageLoader {
     }
 
     loadElements() {
-        let response = this.Controller.communityList().then((response) => {
+        this.Controller.communityList().then((response) => {
             return response.json();
         }).then((json) => {
             json.sort((a,b) => {

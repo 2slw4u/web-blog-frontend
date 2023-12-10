@@ -22,15 +22,6 @@ export class ApiController {
         return result;
     }
 
-    async formFetchAdditive(array) {
-        let result = array.length < 1 ? "" : `?${array[0].name}=${array[0].value}`;
-        for (let i = 1; i < array.length; i++) {
-            const element = array[i];
-            result += `&${element.name}=${element.value}`;
-        }
-        return result;
-    }
-
     async executeMethod(method, url_specified, body = null) {
         let response = await fetch(`${this.url_common}${url_specified}`, {
             method: method,
@@ -178,5 +169,4 @@ export class ApiController {
     async accountEditInfo(body) {
         return this.executeMethod(Methods.put, `account/profile`, body)
     }
-
 }

@@ -16,7 +16,7 @@ export class AuthorsPageLoader extends PageLoader {
     }
 
     loadElements() {
-        var response = this.Controller.authorList().then((response) => {
+        this.Controller.authorList().then((response) => {
             return response.json();
         }).then((json) => {
             //deep copying json

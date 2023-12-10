@@ -43,7 +43,7 @@ export class RegisterPageLoader extends PageLoader {
     } 
 
     register() {
-        var body = {
+        let body = {
             fullName: $('#full-name-input').val(),
             password: $('#password-input').val(),
             email: $('#email-input').val(),
@@ -53,10 +53,11 @@ export class RegisterPageLoader extends PageLoader {
         }
         console.log(body);
         if (this.validate(body)) {
-            var response = this.Controller.accountRegister(body).then((response) => {
+            this.Controller.accountRegister(body).then((response) => {
                 return response.json();
             }).then((json) => {
                 localStorage.setItem("token", json["token"]);
+                localStorage.setItem("userEmail", body.email);
                 this._profilePageLoader.loadPage();
             }).catch((error) => {
                 this.handleErros(error);

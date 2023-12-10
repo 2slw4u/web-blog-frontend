@@ -26,7 +26,7 @@ export class StartingPageLoader extends PageLoader {
     }
 
     logout() {
-        var response = this.Controller.accountLogout().then((response) => {
+        this.Controller.accountLogout().then((response) => {
             return response.json();
         }).then((json) => {
             localStorage.setItem("token", null);
@@ -70,11 +70,6 @@ export class StartingPageLoader extends PageLoader {
         $("#nav-logout").click(() => {
             this.logout();
         });
-    }
-
-    loadNavElements() {
-        PageLoader.hideAll();
-        Common.changeAuthorizedDisplay();
     }
 
     //Это - единственный наследник PageLoader, имеющий нестандартное поведение: он ничего не подгружает в <content> и не показывает никакие данные, 

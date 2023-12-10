@@ -46,15 +46,16 @@ export class LoginPageLoader extends PageLoader {
     } 
 
     login() {
-        var body = {
+        let body = {
             email: $('#email-input').val(),
             password: $('#password-input').val()
         }
         if (this.validate(body)) {
             return this.Controller.accountLogin(body).then((response) => {
                 return response.json();
-            }).then((json) => {
+            }).then(async (json) => {
                 localStorage.setItem("token", json["token"]);
+                await localStorage.setItem("userEmail", body.email);
                 this._profilePageLoader.loadPage();
             }).catch((error) => {
                 this.handleErros(error);

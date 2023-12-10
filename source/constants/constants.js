@@ -19,9 +19,11 @@ export const CommunityRoles = {
 
 export const NewElementPosition = {
     start: "start",
-    end: "end"
+    end: "end",
+    before: "before",
+    after: "after"
 }
 
-export const MaxPostLength = 200;
+export const MaxPostLength = 40;
 
 export const Deleted = "[УДАЛЕНО]";

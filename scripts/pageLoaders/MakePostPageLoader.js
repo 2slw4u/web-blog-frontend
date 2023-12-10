@@ -5,8 +5,11 @@ import { Validator } from "../Validator.js";
 
 export class MakePostPageLoader extends PageLoader {
 
-    constructor() {
+    groupId = null;
+
+    constructor(groupId = null) {
         super("../../source/templates/page-templates/make-post-page-template.html");
+        this.groupId = groupId;
     }
 
     validate(body) {
@@ -22,16 +25,16 @@ export class MakePostPageLoader extends PageLoader {
         super.handleErrors(err);
     }
 
-    getAddressId() {
+    getAddressGuid() {
         let $lastInput = $(".address-template:last").find(".address-input");
         if ($lastInput.val() == "none") {
             let $secondToLastInput = $(".address-template:last").prev().find(".address-input");
             if ($secondToLastInput === null || $secondToLastInput.val() === undefined) {
                 return null;
             }
-            return $secondToLastInput.val();
+            return $secondToLastInput.data("parent");
         }
-        return $lastInput.val();
+        return $lastInput.data("parent");
     }
 
     uploadAddresses(id, level, parentObjectId, query = null) {
@@ -48,6 +51,7 @@ export class MakePostPageLoader extends PageLoader {
                     $template = $('.basic-address-option').first().clone();
                     $template.attr("id", `address-${level}-${element.objectId}`);
                     $template.attr("value", `${element.objectId}`);
+                    $template.attr("data-parent", element.objectGuid);
                     $template.text(element.text);
                     $template.removeAttr("selected");
                     $selectInput.append($template);
@@ -67,6 +71,7 @@ export class MakePostPageLoader extends PageLoader {
         $parent.empty();
         $(`#${selectId} > option`).each((i, obj) => {
             $child.attr("id", `${obj.value}`);
+            $child.attr("data-parent", obj.dataset.parent);
             $child.attr("aria-selected", "false");
             $child.text(obj.text);
             $child.removeClass("select2-results__option");
@@ -74,9 +79,11 @@ export class MakePostPageLoader extends PageLoader {
             $child.css("padding", "6px");
             $child.click((event) => {
                 $(`#${selectId}`).val($(event.target).attr("id"));
+                $(`#${selectId}`).attr("data-parent", $(event.target).data("parent"));
                 $(`#select2-${selectId}-container`).attr("title", $(event.target).attr("id"));
                 $(`#select2-${selectId}-container`).text($(`#${selectId} option[value=${$(event.target).attr("id")}]`).text());
                 $(`#${selectId}`).trigger('selected-option-changed')
+                //localStorage.setItem("objectGuid", $(event.target).data("parent"));
             });
             $parent.append($child);
             $child = $child.clone();
@@ -157,6 +164,10 @@ export class MakePostPageLoader extends PageLoader {
                             $template.val(json.id);
                             $("#new-post-group-input").append($template);
                             return json;
+                        }).then(() => {
+                            if (this.groupId != null) {
+                                $("#new-post-group-input").val(this.groupId);
+                            }
                         }).catch((error) => {
                             this.handleErros(error);
                             return error;
@@ -169,18 +180,18 @@ export class MakePostPageLoader extends PageLoader {
         })
     }
 
-    loadTags() {
+    loadTags(parentSelector) {
         this.Controller.tagList().then((response) => {
             return response.json();
         }).then((json) => {
             json.forEach(element => {
-                let $template = $("#groups-basic-option:first").clone();
+                let $template = $(".basic-option:first").clone();
                 $template.removeAttr("selected");
                 $template.attr("id", `tag-${element.name}`);
                 $template.attr("value", `${element.name}`);
                 $template.text(element.name);
                 $template.val(element.id);
-                $("#new-post-tags-input").append($template);
+                $(parentSelector).append($template);
             });
         }).catch((error) => {
             this.handleErros(error);
@@ -194,11 +205,10 @@ export class MakePostPageLoader extends PageLoader {
             description: $('#new-post-content').val(),
             readingTime: $('#new-post-reading-time-input').val(),
             image: $('#new-post-image-link-input').val() == "" ? null : $('#new-post-image-link-input').val(),
-            addressId: this.getAddressId(),
+            addressId: this.getAddressGuid(),
             tags: $('#new-post-tags-input').val()
         }
         if (this.validate(body)) {
-            console.log(body);
             if ($("#new-post-group-input").val() === "none") {
                 await this.Controller.postCreate(body).catch((error) => {
                     this.handleErros(error);
@@ -220,13 +230,13 @@ export class MakePostPageLoader extends PageLoader {
             this.loadGroups();
         }).then(() => {
             Common.waitForElm("#new-post-tags-input").then(() => {
-                this.loadTags();
+                this.loadTags("#new-post-tags-input");
             });
         }).then(() => {
             Common.waitForElm("#create-post-button").then((elm) => {
                 $(elm).click(() => {
                     if (this.createPost()) {
-                        $("nav-main-page").trigger("click");
+                        $("#nav-main-page").trigger("click");
                     }
                 });
             });

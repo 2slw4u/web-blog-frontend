@@ -116,4 +116,14 @@ export class Validator {
         } 
         return new ValidationResult(true, container, "Looks suitable!"); 
     }
+
+    static validateFilterReadingTime(readingTime, container) {
+        if (readingTime < 0) {
+            return new ValidationResult(false, container, "Reading time must be not negative"); 
+        }
+        if (readingTime > 500) {
+            return new ValidationResult(false, container, "I ain't reading all dat"); 
+        }
+        return new ValidationResult(true, container, "Looks suitable!"); 
+    }
 }

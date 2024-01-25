@@ -1,0 +1,30 @@
+<div class="post-pagination-template px-0 my-3 row align-items-center justify-content-between w-75" id="post-pagination-template">
+    <div class="post-pagination-nav-template col-3 px-0 pt-4">
+        <nav class="post-pagination-nav">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous" id="pagination-previous-item">
+                  <span aria-hidden="true">&lt;</span>
+                </a>
+              </li>
+              <li class="page-item" id="pagination-basic-option"><a class="page-link">1</a></li>
+              <!-- <li class="page-item"><a class="page-link" id="pagination-basic-option">2</a></li>
+              <li class="page-item"><a class="page-link" id="pagination-basic-option">3</a></li> -->
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" id="pagination-next-item">
+                  <span aria-hidden="true">&gt;</span>
+                </a>
+              </li>
+            </ul>
+        </nav>    
+    </div>
+    <div class="post-per-page-count-template col-3 px-0">
+        <label for="post-per-page-select" class="form-label mb-0">Число постов на странице</label>
+        <select class="input-group" id="post-pagination-size">                            
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+        </select>
+    </div>
+</div>
